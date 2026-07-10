@@ -9,6 +9,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "generate": "python script/main.py",
+    "sync:latexlint": "python script/run_sync_latexlint.py",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -21,7 +23,7 @@
     "framer-motion": "^12.23.24",
     "github-markdown-css": "^5.8.1",
     "kuromoji": "^0.1.2",
-    "latexlint": "github:hari64boli64/latexlint",
+    "latexlint": "https://github.com/hari64boli64/latexlint/archive/refs/heads/master.tar.gz",
     "monaco-editor": "^0.53.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
