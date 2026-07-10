@@ -25,7 +25,7 @@ type ProjectItem = {
 const PROJECTS: ProjectItem[] = [
     {
         title: 'LaTeX Lint',
-        description: 'Online LaTeX and Markdown checker for academic writing.',
+        description: 'Online linter for improving LaTeX code quality in academic documents.',
         status: 'available',
         to: ROUTES.LATEXLINT,
     },
