@@ -48,7 +48,7 @@ export function Content() {
     };
 
     const handleOpenAboutWithHash = (hash: string) => {
-        const path = hash ? `${ROUTES.README}/${encodeURIComponent(hash)}` : ROUTES.README;
+        const path = hash ? `${ROUTES.LATEXLINT_README}/${encodeURIComponent(hash)}` : ROUTES.LATEXLINT_README;
         navigate(path);
     };
 

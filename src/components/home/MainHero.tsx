@@ -1,11 +1,12 @@
 import { HStack, Heading, Image, Text, VStack } from '@chakra-ui/react';
+import { BASE_URL } from '../../constants/app';
 
 export function MainHero() {
     return (
         <VStack justify="center" align="center" mb={4}>
             <HStack align="center">
                 <Image
-                    src="lintIconLight_copied.svg"
+                    src={`${BASE_URL}lintIconLight_copied.svg`}
                     alt="LaTeX Lint Icon"
                     boxSize="2.5em"
                     mr={2}

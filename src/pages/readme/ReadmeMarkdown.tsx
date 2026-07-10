@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import remarkSlug from 'remark-slug';
+import { ROUTES } from '../../constants/routes';
 import { GITHUB_RAW_BASE } from './constants';
 
 type ReadmeMarkdownProps = {
@@ -18,7 +19,7 @@ export function ReadmeMarkdown({ content }: ReadmeMarkdownProps) {
             components={{
                 a: ({ href, children, ...props }) => {
                     if (href?.startsWith('#')) {
-                        return <RouterLink {...props} to={`/readme/${href.slice(1)}`}>{children}</RouterLink>;
+                        return <RouterLink {...props} to={`${ROUTES.LATEXLINT_README}/${href.slice(1)}`}>{children}</RouterLink>;
                     }
 
                     return <a {...props} href={href}>{children}</a>;

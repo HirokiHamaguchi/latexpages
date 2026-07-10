@@ -1,6 +1,7 @@
 import os
 
 from make_png_files import make_png_files
+from make_404_fallback import make_404_fallback
 from run_sync_latexlint import run_sync_latexlint
 from test_latexlint_config import test_latexlint_config
 from test_npm_run import test_npm_run
@@ -11,6 +12,7 @@ def main():
     make_png_files()
     test_latexlint_config()
     test_npm_run()
+    make_404_fallback()
 
     files = os.listdir(os.path.dirname(__file__))
     functions = []

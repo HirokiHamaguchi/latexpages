@@ -1,5 +1,6 @@
 import { Box, HStack, Image, Text, useMediaQuery } from '@chakra-ui/react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { BASE_URL } from '../constants/app';
 import { NAV_ITEMS, ROUTES } from '../constants/routes';
 
 export function TopNavHeader() {
@@ -7,8 +8,8 @@ export function TopNavHeader() {
     const [isNarrowScreen] = useMediaQuery(['(max-width: 425px)'], { ssr: false });
 
     const isActive = (path: string) => {
-        if (path === ROUTES.README) {
-            return location.pathname === ROUTES.README || location.pathname.startsWith(`${ROUTES.README}/`);
+        if (path === ROUTES.LATEXLINT_README) {
+            return location.pathname === ROUTES.LATEXLINT_README || location.pathname.startsWith(`${ROUTES.LATEXLINT_README}/`);
         }
         return location.pathname === path;
     };
@@ -38,7 +39,7 @@ export function TopNavHeader() {
                     minW="max-content"
                 >
                     {/* Logo + LaTeX Lint */}
-                    <RouterLink to={ROUTES.HOME} aria-label="Go to Home">
+                    <RouterLink to={ROUTES.HUB} aria-label="Go to LaTeX Pages">
                         <Box
                             display="flex"
                             alignItems="center"
@@ -46,13 +47,13 @@ export function TopNavHeader() {
                             flexShrink={0}
                         >
                             <Image
-                                src="lintIconLight_copied.svg"
+                                src={`${BASE_URL}lintIconLight_copied.svg`}
                                 alt="LaTeX Lint Icon"
                                 boxSize="1.5rem"
                             />
                             {!isNarrowScreen && (
                                 <Text fontWeight="semibold" fontFamily="Times New Roman, serif">
-                                    LaTeX Lint
+                                    LaTeX Pages
                                 </Text>
                             )}
                         </Box>
@@ -65,7 +66,6 @@ export function TopNavHeader() {
                         bg="gray.300"
                         flexShrink={0}
                     />
-
                     {/* Nav items */}
                     {NAV_ITEMS.map((item) => (
                         <Box

@@ -1,5 +1,5 @@
 import { Container, VStack } from '@chakra-ui/react';
-import { Footer } from '../Footer';
+import { FOOTER_LINK_SETS, Footer } from '../Footer';
 import { TopNavHeader } from '../TopNavHeader';
 
 type PageLayoutProps = {
@@ -14,7 +14,7 @@ export function PageLayout({ children }: PageLayoutProps) {
                 <VStack gap={4} align="stretch">
                     {children}
                 </VStack>
-                <Footer />
+                <Footer links={FOOTER_LINK_SETS.latexlint} />
             </Container>
         </>
     );

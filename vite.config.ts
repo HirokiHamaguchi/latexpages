@@ -22,7 +22,17 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
   },
   // GitHub Pages用の設定
-  base: '/latexpages/latexlint/',
+  base: '/latexpages/',
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        latexlint: path.resolve(__dirname, 'latexlint/index.html'),
+        latexcitation: path.resolve(__dirname, 'latexcitation/index.html'),
+        latexwriting: path.resolve(__dirname, 'latexwriting/index.html'),
+      },
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
