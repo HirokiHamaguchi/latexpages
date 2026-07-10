@@ -18,8 +18,11 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path={ROUTES.HUB} element={<HubPage />} />
           <Route path={ROUTES.LATEXLINT} element={<Content />} />
+          <Route path={`${ROUTES.LATEXLINT}/`} element={<Content />} />
           <Route path={ROUTES.LATEXLINT_OTHER} element={<OtherPage />} />
+          <Route path={`${ROUTES.LATEXLINT_OTHER}/`} element={<OtherPage />} />
           <Route path={ROUTES.LATEXLINT_README} element={<ReadmePage />} />
+          <Route path={`${ROUTES.LATEXLINT_README}/`} element={<ReadmePage />} />
           <Route path={`${ROUTES.LATEXLINT_README}/:anchor`} element={<ReadmePage />} />
           <Route
             path={ROUTES.LATEXCITATION}
@@ -31,7 +34,25 @@ createRoot(document.getElementById('root')!).render(
             }
           />
           <Route
+            path={`${ROUTES.LATEXCITATION}/`}
+            element={
+              <ProjectPlaceholderPage
+                title="LaTeX Citation"
+                description="Citation support tools for academic manuscripts are planned here."
+              />
+            }
+          />
+          <Route
             path={ROUTES.LATEXWRITING}
+            element={
+              <ProjectPlaceholderPage
+                title="LaTeX Writing"
+                description="Writing notes and utilities for clearer technical documents are planned here."
+              />
+            }
+          />
+          <Route
+            path={`${ROUTES.LATEXWRITING}/`}
             element={
               <ProjectPlaceholderPage
                 title="LaTeX Writing"

@@ -73,7 +73,24 @@ export function Content() {
     };
 
     useEffect(() => {
-        preloadTextLintDictionary();
+        const preload = () => {
+            void preloadTextLintDictionary();
+        };
+        const windowWithIdleCallback = window as Window & {
+            requestIdleCallback?: (callback: () => void) => number;
+            cancelIdleCallback?: (handle: number) => void;
+        };
+        const handle = windowWithIdleCallback.requestIdleCallback
+            ? windowWithIdleCallback.requestIdleCallback(preload)
+            : window.setTimeout(preload, 1000);
+
+        return () => {
+            if (windowWithIdleCallback.cancelIdleCallback) {
+                windowWithIdleCallback.cancelIdleCallback(handle);
+            } else {
+                window.clearTimeout(handle);
+            }
+        };
     }, []);
 
     useEffect(() => {

@@ -2,7 +2,6 @@ import { checkNoDroppingI } from "@latexlint/TextLint/no_dropping_i";
 import { checkNoDroppingRa } from "@latexlint/TextLint/no_dropping_ra";
 import { checkNoSuccessiveWord } from "@latexlint/TextLint/no_successive_word";
 import { checkOverlookedTypo } from "@latexlint/TextLint/overlooked_typo";
-import { parseSentence } from "@latexlint/TextLint/parser";
 import { checkTariTari } from "@latexlint/TextLint/tari_tari";
 import type { LLTextLintErrorResult } from "@latexlint/TextLint/types";
 import filterDisabledLineDiagnostics from "@latexlint/util/filterDisabledLineDiagnostics";
@@ -15,6 +14,7 @@ import {
 import * as monaco from "monaco-editor";
 import type { LintConfig } from "../config";
 import { getConfig } from "../config";
+import { parseSentence } from "./kuromoji-parser";
 import * as vscode from "./vscode-mock";
 import { DiagnosticSeverity, Range } from "./vscode-mock";
 
