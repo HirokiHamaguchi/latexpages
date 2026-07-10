@@ -22,7 +22,7 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
   },
   // GitHub Pages用の設定
-  base: '/latexlint/',
+  base: '/latexpages/latexlint/',
   test: {
     globals: true,
     environment: 'jsdom',

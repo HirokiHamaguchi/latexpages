@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hirokihamaguchi.github.io/latexlint/sitemap.xml
+Sitemap: https://hirokihamaguchi.github.io/latexpages/sitemap.xml

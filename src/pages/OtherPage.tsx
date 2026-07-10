@@ -11,6 +11,7 @@ import { getVocabularyData } from '@latexlint/TextLint/vocabulary_loader';
 import { useMemo } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { PageLayout } from '../components/layout/PageLayout';
+import { BASE_URL } from '../constants/app';
 import { SectionHeading } from '../components/typography/SectionHeading';
 import { VocabularyTable } from './overview/VocabularyTable';
 
@@ -64,7 +65,7 @@ export function OtherPage() {
                     overflow="hidden"
                 >
                     <embed
-                        src="/latexlint/lint.pdf"
+                        src={`${BASE_URL}lint.pdf`}
                         type="application/pdf"
                         width="100%"
                         height="600"
