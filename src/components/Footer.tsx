@@ -19,77 +19,49 @@ export type FooterLinkItem = {
     roundIcon?: boolean;
 };
 
+const projectPageLink = (to: string): FooterLinkItem => ({
+    to,
+    icon: 'lintIconLight_copied.svg',
+    label: 'Project Page',
+});
+
+const githubRepositoryLink = (repository: string): FooterLinkItem => ({
+    href: `https://github.com/HirokiHamaguchi/${repository}`,
+    icon: 'mark-github-24.svg',
+    label: 'GitHub Repository',
+});
+
+const DEVELOPER_SITE_LINK = {
+    href: 'https://hirokihamaguchi.github.io/',
+    icon: 'profile_icon256.webp',
+    label: "Developer's Site",
+    roundIcon: true,
+} satisfies FooterLinkItem;
+
 export const FOOTER_LINK_SETS = {
     latexpages: [
-        {
-            to: ROUTES.HUB,
-            icon: 'lintIconLight_copied.svg',
-            label: 'Project Page',
-        },
-        {
-            href: 'https://github.com/HirokiHamaguchi/latexpages',
-            icon: 'mark-github-24.svg',
-            label: 'GitHub Repository',
-        },
-        {
-            href: 'https://hirokihamaguchi.github.io/',
-            icon: 'profile_icon256.webp',
-            label: "Developer's Website",
-            roundIcon: true,
-        },
+        projectPageLink(ROUTES.HUB),
+        DEVELOPER_SITE_LINK,
+        githubRepositoryLink('latexpages'),
     ],
     latexlint: [
-        {
-            to: ROUTES.LATEXLINT,
-            icon: 'lintIconLight_copied.svg',
-            label: 'Project Page',
-        },
-        {
-            href: 'https://github.com/HirokiHamaguchi/latexlint/tree/master',
-            icon: 'mark-github-24.svg',
-            label: 'GitHub Repository',
-        },
+        projectPageLink(ROUTES.LATEXLINT),
         {
             href: 'https://marketplace.visualstudio.com/items?itemName=hari64boli64.latexlint',
             icon: 'Visual_Studio_Code_1.35_icon.svg',
             label: 'VS Code Extension',
         },
+        githubRepositoryLink('latexlint'),
     ],
     latexcitation: [
-        {
-            to: ROUTES.LATEXCITATION,
-            icon: 'lintIconLight_copied.svg',
-            label: 'Project Page',
-        },
-        {
-            href: 'https://github.com/HirokiHamaguchi/latexcitation',
-            icon: 'mark-github-24.svg',
-            label: 'GitHub Repository',
-        },
-        {
-            href: 'https://hirokihamaguchi.github.io/',
-            icon: 'profile_icon256.webp',
-            label: "Developer's Website",
-            roundIcon: true,
-        },
+        projectPageLink(ROUTES.LATEXCITATION),
+        DEVELOPER_SITE_LINK,
+        githubRepositoryLink('latexcitation'),
     ],
     latexwriting: [
-        {
-            to: ROUTES.LATEXWRITING,
-            icon: 'lintIconLight_copied.svg',
-            label: 'Project Page',
-        },
-        {
-            href: 'https://github.com/HirokiHamaguchi/latexwriting',
-            icon: 'mark-github-24.svg',
-            label: 'GitHub Repository',
-        },
-        {
-            href: 'https://hirokihamaguchi.github.io/',
-            icon: 'profile_icon256.webp',
-            label: "Developer's Website",
-            roundIcon: true,
-        },
+        projectPageLink(ROUTES.LATEXWRITING),
+        DEVELOPER_SITE_LINK,
+        githubRepositoryLink('latexwriting'),
     ],
 } satisfies Record<string, FooterLinkItem[]>;
 
