@@ -14,7 +14,8 @@ export default defineConfig({
   resolve: {
     alias: {
       'vscode': path.resolve(__dirname, './src/utils/vscode-mock.ts'),
-      '@latexlint': path.resolve(__dirname, './node_modules/latexlint/src')
+      '@latexlint': path.resolve(__dirname, './node_modules/latexlint/src'),
+      '@latexcitation': path.resolve(__dirname, '../latexcitation/src')
     }
   },
   define: {

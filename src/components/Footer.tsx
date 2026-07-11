@@ -55,6 +55,42 @@ export const FOOTER_LINK_SETS = {
             label: 'VS Code Extension',
         },
     ],
+    latexcitation: [
+        {
+            to: ROUTES.LATEXCITATION,
+            icon: 'lintIconLight_copied.svg',
+            label: 'Project Page',
+        },
+        {
+            href: 'https://github.com/HirokiHamaguchi/latexcitation',
+            icon: 'mark-github-24.svg',
+            label: 'GitHub Repository',
+        },
+        {
+            href: 'https://hirokihamaguchi.github.io/',
+            icon: 'profile_icon256.webp',
+            label: "Developer's Website",
+            roundIcon: true,
+        },
+    ],
+    latexwriting: [
+        {
+            to: ROUTES.LATEXWRITING,
+            icon: 'lintIconLight_copied.svg',
+            label: 'Project Page',
+        },
+        {
+            href: 'https://github.com/HirokiHamaguchi/latexwriting',
+            icon: 'mark-github-24.svg',
+            label: 'GitHub Repository',
+        },
+        {
+            href: 'https://hirokihamaguchi.github.io/',
+            icon: 'profile_icon256.webp',
+            label: "Developer's Website",
+            roundIcon: true,
+        },
+    ],
 } satisfies Record<string, FooterLinkItem[]>;
 
 const DEFAULT_FOOTER_LINKS = FOOTER_LINK_SETS.latexpages;

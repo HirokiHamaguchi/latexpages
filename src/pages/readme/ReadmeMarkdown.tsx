@@ -8,9 +8,10 @@ import { GITHUB_RAW_BASE } from './constants';
 
 type ReadmeMarkdownProps = {
     content: string;
+    routeBase?: string;
 };
 
-export function ReadmeMarkdown({ content }: ReadmeMarkdownProps) {
+export function ReadmeMarkdown({ content, routeBase = ROUTES.LATEXLINT_README }: ReadmeMarkdownProps) {
     return (
         <Markdown
             // @ts-expect-error: Type '() => void | Transformer<Root, Root>' is not assignable to type 'Pluggable'.
@@ -19,7 +20,7 @@ export function ReadmeMarkdown({ content }: ReadmeMarkdownProps) {
             components={{
                 a: ({ href, children, ...props }) => {
                     if (href?.startsWith('#')) {
-                        return <RouterLink {...props} to={`${ROUTES.LATEXLINT_README}/${href.slice(1)}`}>{children}</RouterLink>;
+                        return <RouterLink {...props} to={`${routeBase}/${href.slice(1)}`}>{children}</RouterLink>;
                     }
 
                     return <a {...props} href={href}>{children}</a>;

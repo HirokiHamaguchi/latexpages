@@ -27,12 +27,16 @@
     "paths": {
       "@latexlint/*": [
         "./node_modules/latexlint/src/*"
+      ],
+      "@latexcitation/*": [
+        "../latexcitation/src/*"
       ]
     }
   },
   "include": [
     "src",
     "vite.config.ts",
-    "test"
+    "test",
+    "../latexcitation/src"
   ]
 }
