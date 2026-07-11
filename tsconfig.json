@@ -29,14 +29,13 @@
         "./node_modules/latexlint/src/*"
       ],
       "@latexcitation/*": [
-        "../latexcitation/src/*"
+        "./node_modules/latexcitation/src/*"
       ]
     }
   },
   "include": [
     "src",
     "vite.config.ts",
-    "test",
-    "../latexcitation/src"
+    "test"
   ]
 }
