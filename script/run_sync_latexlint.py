@@ -3,7 +3,7 @@ from pathlib import Path
 from urllib.request import urlopen
 
 
-RAW_BASE_URL = "https://raw.githubusercontent.com/hari64boli64/latexlint/master"
+RAW_BASE_URL = "https://raw.githubusercontent.com/HirokiHamaguchi/latexlint/master"
 
 
 def fetch_bytes(path: str) -> bytes:
@@ -22,7 +22,7 @@ def write_bytes(path: Path, content: bytes):
 
 def write_text(path: Path, content: str):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
+    path.write_text(content, encoding="utf-8", newline="\n")
 
 
 def make_web_config(package_data: dict) -> dict:
