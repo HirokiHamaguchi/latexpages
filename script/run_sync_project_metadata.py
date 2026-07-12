@@ -5,10 +5,11 @@ import re
 from pathlib import Path
 from typing import Any
 
+from project_metadata import build_metadata
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 LATEXPAGES_ROOT = SCRIPT_DIR.parent
 WORKSPACE_ROOT = LATEXPAGES_ROOT.parent
-DEFAULT_METADATA_PATH = SCRIPT_DIR / "project_metadata.json"
 
 
 def read_text(path: Path) -> str:
@@ -18,10 +19,6 @@ def read_text(path: Path) -> str:
 def write_text(path: Path, content: str) -> None:
     path.write_text(content, encoding="utf-8", newline="\n")
     print(f"Updated {path}")
-
-
-def load_metadata(path: Path) -> dict[str, Any]:
-    return json.loads(read_text(path))
 
 
 def resolve_repo(project: dict[str, Any]) -> Path:
@@ -47,15 +44,29 @@ def update_package_json(repo: Path, package_config: dict[str, Any]) -> None:
         data["repository"]["url"] = package_config["repositoryUrl"]
     if "bugsUrl" in package_config:
         data.setdefault("bugs", {})["url"] = package_config["bugsUrl"]
+    if "dependencies" in package_config:
+        dependencies = data.setdefault("dependencies", {})
+        for package_name, package_url in package_config["dependencies"].items():
+            dependencies[package_name] = package_url
 
     content = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
     write_text(package_path, content)
 
     lock_path = repo / "package-lock.json"
-    if "name" in package_config and lock_path.exists():
+    if lock_path.exists() and ("name" in package_config or "dependencies" in package_config):
         lock_data = json.loads(read_text(lock_path))
-        lock_data["name"] = package_config["name"]
-        lock_data.setdefault("packages", {}).setdefault("", {})["name"] = package_config["name"]
+        root_package = lock_data.setdefault("packages", {}).setdefault("", {})
+        if "name" in package_config:
+            lock_data["name"] = package_config["name"]
+            root_package["name"] = package_config["name"]
+        if "dependencies" in package_config:
+            dependencies = root_package.setdefault("dependencies", {})
+            packages = lock_data.setdefault("packages", {})
+            for package_name, package_url in package_config["dependencies"].items():
+                dependencies[package_name] = package_url
+                lock_package = packages.get(f"node_modules/{package_name}")
+                if lock_package is not None:
+                    lock_package["resolved"] = package_url
         lock_content = json.dumps(lock_data, indent=2, ensure_ascii=False) + "\n"
         write_text(lock_path, lock_content)
 
@@ -273,7 +284,7 @@ def write_project_metadata_ts(metadata: dict[str, Any]) -> None:
 
 
 def run_sync_project_metadata() -> None:
-    metadata = load_metadata(DEFAULT_METADATA_PATH)
+    metadata = build_metadata()
     check_all_readme_includes(metadata)
     write_project_metadata_ts(metadata)
     for project_name, project in metadata["projects"].items():

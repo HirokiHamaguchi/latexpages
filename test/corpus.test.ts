@@ -5,20 +5,25 @@ import { checkTariTari } from "@latexlint/TextLint/tari_tari";
 
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 import { describe, it } from "vitest";
+
+const testDir = path.dirname(fileURLToPath(import.meta.url));
+const workspaceRoot = path.resolve(testDir, "../..");
+const latexlintRoot = path.resolve(workspaceRoot, "latexlint");
 
 
 // Additional tests for each function
 describe("TextLint corpus", () => {
     it("should run without errors", async () => {
         // ファイルリストを読み込む
-        const fileListPath = path.resolve("test/util/japanese_markdown_files.txt");
+        const fileListPath = path.resolve(testDir, "util/japanese_markdown_files.txt");
 
         let fileNames = fs.readFileSync(fileListPath, "utf-8").split(/\r?\n/).filter(Boolean);
         fileNames = fileNames.slice(0, 10); // 最初の10ファイルに制限
 
         for (const fileName of fileNames) {
-            const filePath = path.resolve("../" + fileName);
+            const filePath = path.resolve(latexlintRoot, fileName);
             if (!fs.existsSync(filePath)) {
                 console.warn(`File not found: ${filePath}`);
                 continue;

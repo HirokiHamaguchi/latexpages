@@ -32,7 +32,7 @@ beforeAll(() => {
         }
 
         send(): void {
-            // /latexpages/dict/, /latexlint/dict/ または /dict/ で始まるURLをローカルファイルに変換
+            // /latexpages/dict/, /latexlint/dict/, /dict/, or dict/ で始まるURLをローカルファイルに変換
             let fileName = '';
             if (this._url.startsWith('/latexpages/dict/')) {
                 fileName = this._url.replace('/latexpages/dict/', '');
@@ -40,6 +40,8 @@ beforeAll(() => {
                 fileName = this._url.replace('/latexlint/dict/', '');
             } else if (this._url.startsWith('/dict/')) {
                 fileName = this._url.replace('/dict/', '');
+            } else if (this._url.startsWith('dict/')) {
+                fileName = this._url.replace('dict/', '');
             }
 
             if (fileName) {
