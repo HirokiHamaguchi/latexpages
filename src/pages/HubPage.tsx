@@ -10,11 +10,14 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
+import 'github-markdown-css/github-markdown-light.css';
 import { Link as RouterLink } from 'react-router-dom';
+import declarationContent from '../assets/latexpages_README.md?raw';
 import { BASE_URL } from '../constants/app';
 import { PROJECT_METADATA } from '../constants/projectMetadata';
 import { FOOTER_LINK_SETS, Footer } from '../components/Footer';
 import { TopNavHeader } from '../components/TopNavHeader';
+import { ReadmeMarkdown } from './readme/ReadmeMarkdown';
 
 type ProjectItem = {
     label: string;
@@ -93,6 +96,9 @@ export function HubPage() {
                             <ProjectCard key={project.label} project={project} />
                         ))}
                     </Grid>
+                    <Box className="markdown-body">
+                        <ReadmeMarkdown content={declarationContent} />
+                    </Box>
                     <Footer links={FOOTER_LINK_SETS.latexpages} />
                 </VStack>
             </Container>
