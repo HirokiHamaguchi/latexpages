@@ -29,6 +29,11 @@ export const PROJECT_PAGE_SETS = {
 } as const;
 
 export const PROJECT_HEADER_CONFIGS = {
+    latexpages: {
+        label: 'LaTeX Pages',
+        homePath: '',
+        navItems: [],
+    },
     latexlint: {
         label: 'LaTeX Lint',
         homePath: ROUTES.LATEXLINT,

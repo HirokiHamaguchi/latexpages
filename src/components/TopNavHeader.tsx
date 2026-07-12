@@ -103,7 +103,14 @@ export function TopNavHeader({
                                 </Box>
                             </>
                         ) : (
-                            <Text fontWeight="semibold" fontFamily="Times New Roman, serif">
+                            <Text
+                                display="inline-flex"
+                                alignItems="center"
+                                h="2rem"
+                                fontWeight="semibold"
+                                fontFamily="Times New Roman, serif"
+                                lineHeight="1"
+                            >
                                 {pageLabel}
                             </Text>
                         )}

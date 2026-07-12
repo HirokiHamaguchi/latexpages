@@ -2,21 +2,19 @@ import {
     Badge,
     Box,
     Button,
-    Container,
     Grid,
     Heading,
     HStack,
-    Image,
     Text,
     VStack,
 } from '@chakra-ui/react';
 import 'github-markdown-css/github-markdown-light.css';
 import { Link as RouterLink } from 'react-router-dom';
 import declarationContent from '../assets/latexpages_README.md?raw';
-import { BASE_URL } from '../constants/app';
 import { PROJECT_METADATA } from '../constants/projectMetadata';
-import { FOOTER_LINK_SETS, Footer } from '../components/Footer';
-import { TopNavHeader } from '../components/TopNavHeader';
+import { FOOTER_LINK_SETS } from '../components/Footer';
+import { PageLayout } from '../components/layout/PageLayout';
+import { Hero } from '../components/home/Hero';
 import { ReadmeMarkdown } from './readme/ReadmeMarkdown';
 
 type ProjectItem = {
@@ -72,36 +70,20 @@ function ProjectCard({ project }: { project: ProjectItem }) {
 
 export function HubPage() {
     return (
-        <>
-            <TopNavHeader navItems={[]} pageLabel={PROJECT_METADATA.latexpages.label} projectHomePath="" />
-            <Container maxW="container.xl" py={8} as="main">
-                <VStack gap={8} align="stretch">
-                    <VStack align="center" gap={3} py={6}>
-                        <HStack align="center">
-                            <Image
-                                src={`${BASE_URL}lintIconLight_copied.svg`}
-                                alt={PROJECT_METADATA.latexpages.label}
-                                boxSize="2.5em"
-                            />
-                            <Heading as="h1" size="3xl" color="#333333">
-                                <Text fontFamily="Times New Roman, serif">{PROJECT_METADATA.latexpages.label}</Text>
-                            </Heading>
-                        </HStack>
-                        <Text fontSize="lg" color="gray.500" textAlign="center">
-                            {PROJECT_METADATA.latexpages.description}
-                        </Text>
-                    </VStack>
-                    <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
-                        {PROJECTS.map((project) => (
-                            <ProjectCard key={project.label} project={project} />
-                        ))}
-                    </Grid>
-                    <Box className="markdown-body">
-                        <ReadmeMarkdown content={declarationContent} />
-                    </Box>
-                    <Footer links={FOOTER_LINK_SETS.latexpages} />
-                </VStack>
-            </Container>
-        </>
+        <PageLayout footerLinks={FOOTER_LINK_SETS.latexpages} projectKey="latexpages">
+            <Hero
+                label={PROJECT_METADATA.latexpages.label}
+                subtitle={PROJECT_METADATA.latexpages.description}
+                iconAlt={PROJECT_METADATA.latexpages.label}
+            />
+            <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
+                {PROJECTS.map((project) => (
+                    <ProjectCard key={project.label} project={project} />
+                ))}
+            </Grid>
+            <Box className="markdown-body">
+                <ReadmeMarkdown content={declarationContent} />
+            </Box>
+        </PageLayout>
     );
 }

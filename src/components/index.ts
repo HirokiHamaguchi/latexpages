@@ -3,7 +3,7 @@ export { DiagnosticsSection } from "./DiagnosticsSection";
 export { EditorSection } from "./EditorSection";
 export { Footer } from "./Footer";
 export { DocTypeSwitch } from "./home/DocTypeSwitch";
-export { MainHero } from "./home/MainHero";
+export { Hero } from "./home/Hero";
 export { SampleSection } from "./home/SampleSection";
 export { PageLayout } from "./layout/PageLayout";
 export { TopNavHeader } from "./TopNavHeader";

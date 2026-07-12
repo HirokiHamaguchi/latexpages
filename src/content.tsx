@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { ConfigurationSection, EditorSection } from './components';
 import { DiagnosticsSection } from './components/DiagnosticsSection';
 import { DocTypeSwitch } from './components/home/DocTypeSwitch';
-import { MainHero } from './components/home/MainHero';
+import { Hero } from './components/home/Hero';
 import { SampleSection } from './components/home/SampleSection';
 import { PageLayout } from './components/layout/PageLayout';
+import { PROJECT_METADATA } from './constants/projectMetadata';
 import { ROUTES } from './constants/routes';
 import { DEFAULT_DOC_TYPE, SAMPLES } from './constants/samples';
 import { useConfig, useLinting } from './hooks';
@@ -104,7 +105,11 @@ export function Content() {
 
     return (
         <PageLayout>
-            <MainHero />
+            <Hero
+                label={PROJECT_METADATA.latexlint.label}
+                subtitle={PROJECT_METADATA.latexlint.tagline}
+                iconAlt="LaTeX Lint Icon"
+            />
             <VStack align="stretch">
                 <VStack align="stretch">
                     <HStack
