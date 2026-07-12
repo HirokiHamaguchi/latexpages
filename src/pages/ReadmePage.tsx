@@ -4,7 +4,7 @@ import {
 import 'github-markdown-css/github-markdown-light.css';
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import readmeContent from '../assets/README.md?raw';
+import readmeContent from '../assets/latexlint_README.md?raw';
 import { PageLayout } from '../components/layout/PageLayout';
 import { ReadmeMarkdown } from './readme/ReadmeMarkdown';
 import { useReadmeAnchorScroll } from './readme/useReadmeAnchorScroll';

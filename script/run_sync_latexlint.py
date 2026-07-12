@@ -1,18 +1,10 @@
 import json
 from pathlib import Path
-from urllib.request import urlopen
 
 
-RAW_BASE_URL = "https://raw.githubusercontent.com/HirokiHamaguchi/latexlint/master"
-
-
-def fetch_bytes(path: str) -> bytes:
-    with urlopen(f"{RAW_BASE_URL}/{path}", timeout=30) as response:
-        return response.read()
-
-
-def fetch_text(path: str) -> str:
-    return fetch_bytes(path).decode("utf-8")
+LATEXPAGES_ROOT = Path(__file__).parent.parent
+WORKSPACE_ROOT = LATEXPAGES_ROOT.parent
+LATEXLINT_ROOT = WORKSPACE_ROOT / "latexlint"
 
 
 def write_bytes(path: Path, content: bytes):
@@ -35,21 +27,29 @@ def make_web_config(package_data: dict) -> dict:
 
 
 def run_sync_latexlint():
-    root_dir = Path(__file__).parent.parent
-
-    write_text(root_dir / "src" / "assets" / "README.md", fetch_text("README.md"))
-
-    package_data = json.loads(fetch_text("package.json"))
     write_text(
-        root_dir / "src" / "assets" / "auto_generated_config.json",
+        LATEXPAGES_ROOT / "src" / "assets" / "latexlint_README.md",
+        (LATEXLINT_ROOT / "README.md").read_text(encoding="utf-8"),
+    )
+
+    package_data = json.loads(
+        (LATEXLINT_ROOT / "package.json").read_text(encoding="utf-8")
+    )
+    write_text(
+        LATEXPAGES_ROOT / "src" / "assets" / "auto_generated_config.json",
         json.dumps(make_web_config(package_data), indent=4, ensure_ascii=False) + "\n",
     )
 
-    write_bytes(root_dir / "public" / "lint.pdf", fetch_bytes("sample/lint.pdf"))
+    write_bytes(
+        LATEXPAGES_ROOT / "public" / "lint.pdf",
+        (LATEXLINT_ROOT / "sample" / "lint.pdf").read_bytes(),
+    )
     for mode in ["Dark", "Light"]:
-        write_bytes(
-            root_dir / "public" / f"lintIcon{mode}_copied.svg",
-            fetch_bytes(f"images/lintIcon{mode}.svg"),
+        write_text(
+            LATEXPAGES_ROOT / "public" / f"lintIcon{mode}_copied.svg",
+            (LATEXLINT_ROOT / "images" / f"lintIcon{mode}.svg").read_text(
+                encoding="utf-8"
+            ),
         )
 
 
