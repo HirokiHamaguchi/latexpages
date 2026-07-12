@@ -1,5 +1,6 @@
 import { HStack, Heading, Image, Text, VStack } from '@chakra-ui/react';
 import { BASE_URL } from '../../constants/app';
+import { PROJECT_METADATA } from '../../constants/projectMetadata';
 
 export function MainHero() {
     return (
@@ -12,11 +13,11 @@ export function MainHero() {
                     mr={2}
                 />
                 <Heading as="h1" size="3xl" color="#333333">
-                    <Text fontFamily="Times New Roman, serif">LaTeX Lint</Text>
+                    <Text fontFamily="Times New Roman, serif">{PROJECT_METADATA.latexlint.label}</Text>
                 </Heading>
             </HStack>
             <Text fontSize="lg" color="gray.500">
-                Online LaTeX Code Checker
+                {PROJECT_METADATA.latexlint.tagline}
             </Text>
         </VStack>
     );

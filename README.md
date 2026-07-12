@@ -2,13 +2,13 @@
 
 ## About
 
-LaTeX Pages is a collection of web versions of the LaTeX tools we have developed.
+LaTeX Pages collects web versions of LaTeX tools and notes for academic writing.
 
 The collection currently includes:
 
-* **[LaTeX Lint](./latex-lint)**: Checks LaTeX code for common mistakes.
-* **[LaTeX Citation](./latex-citation)**: Reviews BibTeX files for citation consistency.
-* **[LaTeX Writing](./latex-writing)**: Provides practical tips for academic writing.
+* **[LaTeX Lint](./latexlint)**: Linter to detect common LaTeX and academic writing issues.
+* **[LaTeX Citation](./latexcitation)**: Experimental citation consistency checker for LaTeX projects that visualizes BibTeX field usage.
+* **[LaTeX Writing](./latexwriting)**: Under-construction collection of notes and utilities for academic writing with LaTeX.
 
 ## Declaration
 

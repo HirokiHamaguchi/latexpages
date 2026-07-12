@@ -13,6 +13,7 @@ import {
 import { useMemo, useState } from 'react';
 import { FOOTER_LINK_SETS } from '../components/Footer';
 import { PageLayout } from '../components/layout/PageLayout';
+import { PROJECT_METADATA } from '../constants/projectMetadata';
 
 const SAMPLE_BIB = `@article{refA,
   author  = {A},
@@ -118,11 +119,11 @@ export function LatexCitationPage() {
             <VStack gap={6} align="stretch">
                 <VStack align="stretch" gap={1}>
                     <Heading as="h1" size="2xl" fontFamily="Times New Roman, serif">
-                        LaTeX Citation
+                        {PROJECT_METADATA.latexcitation.label}
                     </Heading>
                     <Badge colorPalette="red" alignSelf="flex-start">Under Construction</Badge>
                     <Text color="gray.600">
-                        Citation consistency tables for BibTeX bibliographies.
+                        {PROJECT_METADATA.latexcitation.description}
                     </Text>
                     <Badge colorPalette={bblText.trim() ? 'green' : 'gray'} alignSelf="flex-start">{bblStatus}</Badge>
                 </VStack>

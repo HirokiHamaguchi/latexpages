@@ -1,18 +1,22 @@
 import os
 
-from make_png_files import make_png_files
 from make_404_fallback import make_404_fallback
+from make_png_files import make_png_files
+from run_sync_latexcitation import run_sync_latexcitation
 from run_sync_latexlint import run_sync_latexlint
+from run_sync_project_metadata import run_sync_project_metadata
 from test_latexlint_config import test_latexlint_config
 from test_npm_run import test_npm_run
 
 
 def main():
     run_sync_latexlint()
+    run_sync_latexcitation()
+    run_sync_project_metadata()
     make_png_files()
+    make_404_fallback()
     test_latexlint_config()
     test_npm_run()
-    make_404_fallback()
 
     files = os.listdir(os.path.dirname(__file__))
     functions = []

@@ -1,5 +1,7 @@
 {
-  "name": "latexlint-web",
+  "name": "latexpages",
+  "displayName": "LaTeX Pages",
+  "description": "Web versions of LaTeX tools and notes for academic writing",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +12,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate": "python script/main.py",
-    "sync:latexlint": "python script/run_sync_latexlint.py",
     "test": "vitest run",
     "test:watch": "vitest"
   },
