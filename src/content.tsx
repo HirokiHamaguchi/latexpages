@@ -14,11 +14,11 @@ import { useConfig, useLinting } from './hooks';
 import { DocType, LintingState } from './types';
 import { preloadTextLintDictionary } from './utils';
 
-const getStatusMessage = (state: LintingState) => {
+const getStatusParts = (state: LintingState) => {
     switch (state) {
-        case 'idle': return 'ℹ️ Not Started';
-        case 'linting': return '🔄 Analyzing...';
-        default: return '✅ Linted';
+        case 'idle': return { symbol: '\u25B7', label: 'Not Started' };
+        case 'linting': return { symbol: '\u21BB', label: 'Analyzing...' };
+        default: return { symbol: '\u2713', label: 'Linted' };
     }
 };
 
@@ -32,7 +32,12 @@ export function Content() {
 
     const { lintingState, diagnostics, runLint, runLintWithDelay } = useLinting();
     const { config, updateConfig } = useConfig();
-    const statusColor = lintingState === 'complete' ? 'green.600' : 'blue.600';
+    const statusColor = lintingState === 'idle'
+        ? 'gray.500'
+        : lintingState === 'complete'
+            ? 'green.600'
+            : 'blue.600';
+    const statusParts = getStatusParts(lintingState);
 
     const handleTextChange = (newText: string) => {
         setText(newText);
@@ -113,8 +118,12 @@ export function Content() {
                         w="full"
                     >
                         <HStack color="gray.700" gap={3} flexWrap="nowrap" flexShrink={0}>
-                            <Text as="span" color={statusColor} fontWeight="medium">
-                                {getStatusMessage(lintingState)}
+                            <Text as="span" color={statusColor} fontWeight="semibold">
+                                <Text as="span" fontFamily='Cambria Math, STIX Two Text, STIXGeneral, Times New Roman, serif'>
+                                    {statusParts.symbol}
+                                </Text>
+                                {' '}
+                                {statusParts.label}
                             </Text>
                         </HStack>
 
