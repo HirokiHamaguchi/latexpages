@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ConfigurationSection, EditorSection } from './components';
 import { DiagnosticsSection } from './components/DiagnosticsSection';
 import { DocTypeSwitch } from './components/home/DocTypeSwitch';
-import { Hero } from './components/home/Hero';
+import { Hero } from './components/hero/Hero';
 import { SampleSection } from './components/home/SampleSection';
 import { PageLayout } from './components/layout/PageLayout';
 import { PROJECT_METADATA } from './constants/projectMetadata';

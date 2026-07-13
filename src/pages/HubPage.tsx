@@ -14,7 +14,7 @@ import declarationContent from '../assets/latexpages_README.md?raw';
 import { PROJECT_METADATA } from '../constants/projectMetadata';
 import { FOOTER_LINK_SETS } from '../components/Footer';
 import { PageLayout } from '../components/layout/PageLayout';
-import { Hero } from '../components/home/Hero';
+import { Hero } from '../components/hero/Hero';
 import { ReadmeMarkdown } from './readme/ReadmeMarkdown';
 
 type ProjectItem = {
