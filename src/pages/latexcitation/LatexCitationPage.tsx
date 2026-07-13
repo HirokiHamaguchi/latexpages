@@ -45,12 +45,10 @@ const MIN_FIELD_COLUMN_WIDTH = 40;
 const MIN_KEY_COLUMN_WIDTH = 140;
 const MAX_KEY_COLUMN_WIDTH = 320;
 const KEY_COLUMN_VIEWPORT_RATIO = 0.3;
-const TALL_TABLE_RATIO = 0.6;
 const FLOATING_HEADER_TOP_SPACING = 72;
+const FLOATING_HEADER_RADIUS_MASK_OVERLAP = 12;
 const TABLE_BAR_HEIGHT = 52;
 const TABLE_HEADER_HEIGHT = 42;
-const TABLE_ROW_HEIGHT = 40;
-const FLOATING_HEADER_HEIGHT = TABLE_BAR_HEIGHT + TABLE_HEADER_HEIGHT;
 const FLOATING_HEADER_Z_INDEX = 900;
 const TABLE_OCCLUSION_Z_INDEX = 890;
 
@@ -70,8 +68,6 @@ type HoverPreview = {
 };
 
 type TableStickiness = {
-    isTall: boolean;
-    isActive: boolean;
     overlayLeft: number;
     overlayWidth: number;
     scrollLeft: number;
@@ -328,8 +324,6 @@ function useTableStickiness() {
     const sectionRef = useRef<HTMLDivElement | null>(null);
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [stickiness, setStickiness] = useState<TableStickiness>({
-        isTall: false,
-        isActive: false,
         overlayLeft: 0,
         overlayWidth: 0,
         scrollLeft: 0,
@@ -341,28 +335,20 @@ function useTableStickiness() {
             if (!section) return;
 
             const rect = section.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
             const overlayLeft = Math.max(0, rect.left);
             const overlayRight = Math.min(window.innerWidth, rect.right);
-            const isTall = rect.height > viewportHeight * TALL_TABLE_RATIO;
-            const normalTop = FLOATING_HEADER_TOP_SPACING;
-            const isActive = isTall
-                && rect.top <= normalTop
-                && rect.bottom > normalTop + FLOATING_HEADER_HEIGHT + TABLE_ROW_HEIGHT;
 
             setStickiness((current) => {
                 const scrollLeft = scrollRef.current?.scrollLeft ?? 0;
                 const overlayWidth = Math.max(0, overlayRight - overlayLeft);
                 if (
-                    current.isTall === isTall
-                    && current.isActive === isActive
-                    && current.overlayLeft === overlayLeft
+                    current.overlayLeft === overlayLeft
                     && current.overlayWidth === overlayWidth
                     && current.scrollLeft === scrollLeft
                 ) {
                     return current;
                 }
-                return { isTall, isActive, overlayLeft, overlayWidth, scrollLeft };
+                return { overlayLeft, overlayWidth, scrollLeft };
             });
         };
 
@@ -450,32 +436,26 @@ function FloatingTableHeader({
     color: (typeof TYPE_COLORS)[number];
     stickiness: TableStickiness;
 }) {
-    if (!stickiness.isActive || stickiness.overlayWidth <= 0) return null;
-
     return (
         <>
+            {stickiness.overlayWidth > 0 && (
+                <Box
+                    position="fixed"
+                    top={0}
+                    left={`${stickiness.overlayLeft}px`}
+                    w={`${stickiness.overlayWidth}px`}
+                    h={`${FLOATING_HEADER_TOP_SPACING + FLOATING_HEADER_RADIUS_MASK_OVERLAP}px`}
+                    bg="white"
+                    pointerEvents="none"
+                    zIndex={TABLE_OCCLUSION_Z_INDEX}
+                />
+            )}
             <Box
-                position="fixed"
-                top={0}
-                left={`${stickiness.overlayLeft}px`}
-                w={`${stickiness.overlayWidth}px`}
-                h={`${FLOATING_HEADER_TOP_SPACING + FLOATING_HEADER_HEIGHT}px`}
-                bg="white"
-                pointerEvents="none"
-                zIndex={TABLE_OCCLUSION_Z_INDEX}
-            />
-            <Box
-                position="fixed"
+                position="sticky"
                 top={`${FLOATING_HEADER_TOP_SPACING}px`}
-                left={`${stickiness.overlayLeft}px`}
-                w={`${stickiness.overlayWidth}px`}
                 bg={color.bg}
-                borderWidth="1px"
-                borderColor="gray.200"
-                borderLeftWidth="4px"
-                borderLeftColor={color.border}
-                borderRadius="md"
-                boxShadow="md"
+                borderTopRadius="md"
+                boxShadow="sm"
                 overflow="hidden"
                 zIndex={FLOATING_HEADER_Z_INDEX}
             >
@@ -565,13 +545,6 @@ function FieldPresenceTable({ group, entries }: { group: BibFieldGroup; entries:
             bg="white"
             overflow="visible"
         >
-            <TableToolbar
-                group={group}
-                lowPriorityCount={lowPriorityCount}
-                showLowPriority={showLowPriority}
-                onToggleLowPriority={() => setShowLowPriority((value) => !value)}
-                color={color}
-            />
             <FloatingTableHeader
                 group={group}
                 columns={columns}
@@ -591,7 +564,7 @@ function FieldPresenceTable({ group, entries }: { group: BibFieldGroup; entries:
                             <col key={field} style={{ width: `${columnWidths[index]}px` }} />
                         ))}
                     </colgroup>
-                    <thead style={{ visibility: stickiness.isActive ? 'hidden' : 'visible' }}>
+                    <thead style={{ display: 'none' }}>
                         <tr>
                             <th style={makeHeaderCellStyle({ textAlign: 'left', position: 'sticky', left: 0, zIndex: 5, background: color.bg, width: `${keyColumnWidth}px` })}>
                                 key
