@@ -31,9 +31,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Sync latexlint assets
-        run: npm run sync:latexlint
-
       - name: Build
         run: npm run build
 
