@@ -1,18 +1,24 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
     README_ANCHOR_SCROLL_DELAY_MS,
     README_SCROLL_TOP_OFFSET,
 } from './constants';
 
 export function useReadmeAnchorScroll(anchor: string | undefined, readmeRef: React.RefObject<HTMLDivElement | null>) {
+    const { hash } = useLocation();
+
     useEffect(() => {
-        if (!anchor || !readmeRef.current) return;
+        const hashAnchor = hash ? decodeURIComponent(hash.slice(1)) : undefined;
+        const targetAnchor = anchor ?? hashAnchor;
+        if (!targetAnchor || !readmeRef.current) return;
 
         const timer = window.setTimeout(() => {
             if (!readmeRef.current) return;
-            const element = readmeRef.current.querySelector(`#${anchor.toLowerCase()}`);
+            const targetId = targetAnchor.toLowerCase();
+            const element = readmeRef.current.querySelector(`#${CSS.escape(targetId)}`);
             if (!element) {
-                console.warn(`Element with id ${anchor} not found in README.`);
+                console.warn(`Element with id ${targetId} not found in README.`);
                 return;
             }
 
@@ -31,5 +37,5 @@ export function useReadmeAnchorScroll(anchor: string | undefined, readmeRef: Rea
         }, README_ANCHOR_SCROLL_DELAY_MS);
 
         return () => window.clearTimeout(timer);
-    }, [anchor, readmeRef]);
+    }, [anchor, hash, readmeRef]);
 }
