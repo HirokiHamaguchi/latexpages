@@ -29,3 +29,12 @@ repos:
         files: \.(ts|tsx|js|jsx)$
         args: ["--fix"]
         exclude: ^submodules/|sample/logs/
+
+  - repo: local
+    hooks:
+      - id: check-git-dependency-shas
+        name: Check pinned Git dependency SHAs
+        entry: uv run script/run_check_git_dependency_shas.py
+        language: system
+        pass_filenames: false
+        always_run: true
