@@ -17,15 +17,17 @@ export function TopNavHeader({
 }: TopNavHeaderProps) {
     const location = useLocation();
     const hasNavItems = navItems.length > 0;
+    const currentPath = normalizePath(location.pathname);
 
     const isActive = (path: string) => {
+        const targetPath = normalizePath(path);
         if (path === ROUTES.LATEXLINT_README) {
-            return location.pathname === ROUTES.LATEXLINT_README || location.pathname.startsWith(`${ROUTES.LATEXLINT_README}/`);
+            return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`);
         }
         if (path === ROUTES.LATEXCITATION_README) {
-            return location.pathname === ROUTES.LATEXCITATION_README || location.pathname.startsWith(`${ROUTES.LATEXCITATION_README}/`);
+            return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`);
         }
-        return location.pathname === path;
+        return currentPath === targetPath;
     };
 
     return (
@@ -39,13 +41,13 @@ export function TopNavHeader({
             borderBottomWidth="1px"
             borderColor="gray.200"
             py={1}
-            px={4}
+            px={{ base: 1.5, sm: 2, md: 4 }}
             backdropFilter="blur(8px)"
             width="100%"
         >
             <Box overflowX="auto" overflowY="hidden" py={1} css={{ scrollbarWidth: 'thin' }}>
                 <HStack
-                    gap={4}
+                    gap={{ base: 1.5, sm: 2, md: 4 }}
                     justify="flex-start"
                     flexWrap="nowrap"
                     whiteSpace="nowrap"
@@ -54,7 +56,7 @@ export function TopNavHeader({
                     minH="2.25rem"
                 >
                     {/* Logo + current page label */}
-                    <Box display="flex" alignItems="center" gap={1.5} h="2.25rem" flexShrink={0}>
+                    <Box display="flex" alignItems="center" gap={{ base: 1, md: 1.5 }} h="2.25rem" flexShrink={0}>
                         <Box
                             asChild
                             display="inline-flex"
@@ -135,7 +137,7 @@ export function TopNavHeader({
                             flexShrink={0}
                             h="2rem"
                             borderRadius="md"
-                            px={3}
+                            px={{ base: 1.5, sm: 2, md: 3 }}
                             fontSize="sm"
                             lineHeight="1"
                             fontWeight={isActive(item.path) ? 'semibold' : 'medium'}
@@ -149,11 +151,16 @@ export function TopNavHeader({
                             }}
                             transition="all 0.2s"
                         >
-                            <RouterLink to={item.path}>{item.label}</RouterLink>
+                            <RouterLink to={item.path} aria-current={isActive(item.path) ? 'page' : undefined}>{item.label}</RouterLink>
                         </Box>
                     ))}
                 </HStack>
             </Box>
         </Box>
     );
+}
+
+function normalizePath(path: string) {
+    if (path === ROUTES.HUB) return path;
+    return path.replace(/\/+$/, '');
 }

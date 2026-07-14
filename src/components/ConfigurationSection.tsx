@@ -14,6 +14,12 @@ import { SectionHeading } from './typography/SectionHeading';
 
 type ConfigKey = keyof LintConfig;
 
+const CONFIG_DOC_ANCHORS: Partial<Record<ConfigKey, string>> = {
+    userDefinedRules: 'lluserdefined',
+    LLCrefExceptions: 'llcref',
+    disabledRules: 'rules',
+};
+
 function parseInputList(value: string): string[] {
     return value
         .split(',')
@@ -31,18 +37,19 @@ type ConfigFieldProps = {
 function ConfigField(props: ConfigFieldProps) {
     const metadata = configMetadata[props.keyName];
     const currentValues = props.config[props.keyName];
+    const docsAnchor = CONFIG_DOC_ANCHORS[props.keyName];
     return (
         <Box>
             <Box display="flex" alignItems="center" gap={2} mb={2}>
                 <Text fontWeight="bold">
                     {metadata.description}
                 </Text>
-                {metadata.description && (
+                {docsAnchor && (
                     <IconButton
                         aria-label={`Open docs for ${metadata.description}`}
                         size="xs"
                         variant="ghost"
-                        onClick={() => props.onOpenAboutWithHash(metadata.description)}
+                        onClick={() => props.onOpenAboutWithHash(docsAnchor)}
                     >
                         <LuCircleHelp />
                     </IconButton>
