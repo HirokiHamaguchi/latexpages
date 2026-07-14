@@ -16,8 +16,9 @@ type ConfigKey = keyof LintConfig;
 
 const CONFIG_DOC_ANCHORS: Partial<Record<ConfigKey, string>> = {
     userDefinedRules: 'lluserdefined',
+    exceptions: 'latex-lint-add-exception-word',
     LLCrefExceptions: 'llcref',
-    disabledRules: 'rules',
+    disabledRules: 'disabling-rules',
 };
 
 function parseInputList(value: string): string[] {
