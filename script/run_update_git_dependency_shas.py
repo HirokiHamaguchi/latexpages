@@ -2,7 +2,6 @@ import json
 import subprocess
 from pathlib import Path
 
-
 ROOT = Path(__file__).parent.parent
 DEPENDENCIES = {
     "latexcitation": "https://github.com/HirokiHamaguchi/latexcitation.git",
@@ -35,7 +34,7 @@ def lock_resolved_dependency(name: str, sha: str) -> str:
     return f"git+ssh://git@github.com/HirokiHamaguchi/{name}.git#{sha}"
 
 
-def main():
+def run_update_git_dependency_shas():
     package_path = ROOT / "package.json"
     lock_path = ROOT / "package-lock.json"
 
@@ -60,4 +59,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_update_git_dependency_shas()

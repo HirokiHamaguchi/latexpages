@@ -4,7 +4,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).parent.parent
 DEPENDENCIES = {
     "latexcitation": "https://github.com/HirokiHamaguchi/latexcitation.git",
@@ -45,7 +44,7 @@ def pinned_sha(pin: str, name: str) -> str | None:
     return match.group(2)
 
 
-def main() -> int:
+def run_check_git_dependency_shas() -> int:
     package_json = (ROOT / "package.json").read_text(encoding="utf-8")
     package_lock = (ROOT / "package-lock.json").read_text(encoding="utf-8")
     failures = []
@@ -87,4 +86,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(run_check_git_dependency_shas())
