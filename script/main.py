@@ -1,6 +1,5 @@
 import os
 
-from make_404_fallback import make_404_fallback
 from make_png_files import make_png_files
 from run_check_git_dependency_shas import run_check_git_dependency_shas
 from run_sync_latexcitation import run_sync_latexcitation
@@ -18,7 +17,6 @@ def main():
     run_update_git_dependency_shas()
     run_check_git_dependency_shas()
     make_png_files()
-    make_404_fallback()
     test_latexlint_config()
     test_npm_run()
 

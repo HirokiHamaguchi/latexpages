@@ -1,6 +1,22 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
+import { copyFile } from 'node:fs/promises'
 import path from 'path'
+import type { Plugin } from 'vite'
+
+function copy404Fallback(): Plugin {
+  return {
+    name: 'copy-404-fallback',
+    apply: 'build',
+    async writeBundle(options) {
+      const outDir = options.dir ?? path.resolve(__dirname, 'dist')
+      await copyFile(
+        path.resolve(outDir, 'index.html'),
+        path.resolve(outDir, '404.html'),
+      )
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,6 +26,7 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']],
       },
     }),
+    copy404Fallback(),
   ],
   resolve: {
     alias: {
