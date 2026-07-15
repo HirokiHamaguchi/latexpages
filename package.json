@@ -8,7 +8,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && python script/make_404_fallback.py",
+    "build": "tsc -b && vite build && uv run script/make_404_fallback.py",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate": "python script/main.py",
@@ -25,7 +25,7 @@
     "github-markdown-css": "^5.8.1",
     "kuromoji": "^0.1.2",
     "latexcitation": "git+https://github.com/HirokiHamaguchi/latexcitation.git#7b2c51e1fe70ace0db38c7a22787870728d54023",
-    "latexlint": "git+https://github.com/HirokiHamaguchi/latexlint.git#03034131d49202618cd3fabc619712bc2d4dabac",
+    "latexlint": "git+https://github.com/HirokiHamaguchi/latexlint.git#641368bcf1b489e7277a8b2238bea64c392b0bda",
     "monaco-editor": "^0.53.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
