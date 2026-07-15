@@ -5,7 +5,9 @@ export const ROUTES = {
     LATEXLINT_OTHER: '/latexlint/other',
     LATEXCITATION: '/latexcitation',
     LATEXCITATION_README: '/latexcitation/readme',
+    LATEXCITATION_OTHER: '/latexcitation/other',
     LATEXWRITING: '/latexwriting',
+    LATEXWRITING_OTHER: '/latexwriting/other',
 } as const;
 
 export type NavItem = {
@@ -22,9 +24,11 @@ export const PROJECT_PAGE_SETS = {
     latexcitation: [
         { label: 'Home', path: ROUTES.LATEXCITATION },
         { label: 'README', path: ROUTES.LATEXCITATION_README },
+        { label: 'Other', path: ROUTES.LATEXCITATION_OTHER },
     ],
     latexwriting: [
         { label: 'Home', path: ROUTES.LATEXWRITING },
+        { label: 'Other', path: ROUTES.LATEXWRITING_OTHER },
     ],
 } as const;
 

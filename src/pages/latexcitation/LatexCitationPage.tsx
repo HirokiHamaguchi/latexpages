@@ -50,7 +50,6 @@ const FLOATING_HEADER_RADIUS_MASK_OVERLAP = 12;
 const TABLE_BAR_HEIGHT = 52;
 const TABLE_HEADER_HEIGHT = 42;
 const FLOATING_HEADER_Z_INDEX = 900;
-const TABLE_OCCLUSION_Z_INDEX = 890;
 
 type FieldColumn = 'date' | string;
 
@@ -68,8 +67,6 @@ type HoverPreview = {
 };
 
 type TableStickiness = {
-    overlayLeft: number;
-    overlayWidth: number;
     scrollLeft: number;
 };
 
@@ -321,37 +318,12 @@ function useViewportWidth() {
 }
 
 function useTableStickiness() {
-    const sectionRef = useRef<HTMLDivElement | null>(null);
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [stickiness, setStickiness] = useState<TableStickiness>({
-        overlayLeft: 0,
-        overlayWidth: 0,
         scrollLeft: 0,
     });
 
     useEffect(() => {
-        const updateStickiness = () => {
-            const section = sectionRef.current;
-            if (!section) return;
-
-            const rect = section.getBoundingClientRect();
-            const overlayLeft = Math.max(0, rect.left);
-            const overlayRight = Math.min(window.innerWidth, rect.right);
-
-            setStickiness((current) => {
-                const scrollLeft = scrollRef.current?.scrollLeft ?? 0;
-                const overlayWidth = Math.max(0, overlayRight - overlayLeft);
-                if (
-                    current.overlayLeft === overlayLeft
-                    && current.overlayWidth === overlayWidth
-                    && current.scrollLeft === scrollLeft
-                ) {
-                    return current;
-                }
-                return { overlayLeft, overlayWidth, scrollLeft };
-            });
-        };
-
         const updateScrollLeft = () => {
             const scrollLeft = scrollRef.current?.scrollLeft ?? 0;
             setStickiness((current) => (
@@ -359,19 +331,15 @@ function useTableStickiness() {
             ));
         };
 
-        updateStickiness();
+        updateScrollLeft();
         const scroller = scrollRef.current;
         scroller?.addEventListener('scroll', updateScrollLeft, { passive: true });
-        window.addEventListener('scroll', updateStickiness, { passive: true });
-        window.addEventListener('resize', updateStickiness);
         return () => {
             scroller?.removeEventListener('scroll', updateScrollLeft);
-            window.removeEventListener('scroll', updateStickiness);
-            window.removeEventListener('resize', updateStickiness);
         };
     }, []);
 
-    return { sectionRef, scrollRef, stickiness };
+    return { scrollRef, stickiness };
 }
 
 function TableToolbar({
@@ -438,35 +406,38 @@ function FloatingTableHeader({
 }) {
     return (
         <>
-            {stickiness.overlayWidth > 0 && (
-                <Box
-                    position="fixed"
-                    top={0}
-                    left={`${stickiness.overlayLeft}px`}
-                    w={`${stickiness.overlayWidth}px`}
-                    h={`${FLOATING_HEADER_TOP_SPACING + FLOATING_HEADER_RADIUS_MASK_OVERLAP}px`}
-                    bg="white"
-                    pointerEvents="none"
-                    zIndex={TABLE_OCCLUSION_Z_INDEX}
-                />
-            )}
             <Box
                 position="sticky"
                 top={`${FLOATING_HEADER_TOP_SPACING}px`}
-                bg={color.bg}
-                borderTopRadius="md"
-                boxShadow="sm"
-                overflow="hidden"
                 zIndex={FLOATING_HEADER_Z_INDEX}
             >
-                <TableToolbar
-                    group={group}
-                    lowPriorityCount={lowPriorityCount}
-                    showLowPriority={showLowPriority}
-                    onToggleLowPriority={onToggleLowPriority}
-                    color={color}
+                <Box
+                    position="absolute"
+                    top={`-${FLOATING_HEADER_RADIUS_MASK_OVERLAP * 3}px`}
+                    left="-0.5%"
+                    w="101%"
+                    h={`${FLOATING_HEADER_RADIUS_MASK_OVERLAP * 4}px`}
+                    bg="gray.50"
+                    pointerEvents="none"
+                    zIndex={0}
+                    aria-hidden="true"
                 />
-                <Box position="relative" h={`${TABLE_HEADER_HEIGHT}px`} overflow="hidden" bg={color.bg}>
+                <Box
+                    position="relative"
+                    bg={color.bg}
+                    borderTopRadius="md"
+                    boxShadow="sm"
+                    overflow="hidden"
+                    zIndex={1}
+                >
+                    <TableToolbar
+                        group={group}
+                        lowPriorityCount={lowPriorityCount}
+                        showLowPriority={showLowPriority}
+                        onToggleLowPriority={onToggleLowPriority}
+                        color={color}
+                    />
+                    <Box position="relative" h={`${TABLE_HEADER_HEIGHT}px`} overflow="hidden" bg={color.bg}>
                     <Box
                         position="absolute"
                         left={0}
@@ -506,6 +477,7 @@ function FloatingTableHeader({
                             </Box>
                         ))}
                     </HStack>
+                    </Box>
                 </Box>
             </Box>
         </>
@@ -515,7 +487,7 @@ function FloatingTableHeader({
 function FieldPresenceTable({ group, entries }: { group: BibFieldGroup; entries: BibEntry[] }) {
     const [showLowPriority, setShowLowPriority] = useState(false);
     const [hoverPreview, setHoverPreview] = useState<HoverPreview | undefined>();
-    const { sectionRef, scrollRef, stickiness } = useTableStickiness();
+    const { scrollRef, stickiness } = useTableStickiness();
     const viewportWidth = useViewportWidth();
     const color = colorForType(group.type);
     const entryByKey = new Map(entries.map((entry) => [entry.key, entry]));
@@ -535,7 +507,6 @@ function FieldPresenceTable({ group, entries }: { group: BibFieldGroup; entries:
 
     return (
         <Box
-            ref={sectionRef}
             as="section"
             borderWidth="1px"
             borderColor="gray.200"

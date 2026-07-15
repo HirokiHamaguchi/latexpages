@@ -14,12 +14,36 @@ import { PageLayout } from '../components/layout/PageLayout';
 import { BASE_URL } from '../constants/app';
 import { SectionHeading } from '../components/typography/SectionHeading';
 import { VocabularyTable } from './overview/VocabularyTable';
+import { type ProjectKey } from '../constants/routes';
 
-export function OtherPage() {
+function DeclarationLink() {
+    return (
+        <VStack align="stretch">
+            <SectionHeading>Declaration</SectionHeading>
+            <Text>
+                Our commitments on development, privacy, and non-commercial operation are described in the{' '}
+                <Link href={`${BASE_URL}#declaration`} color="blue.600" textDecoration="underline">
+                    LaTeX Pages declaration
+                </Link>.
+            </Text>
+        </VStack>
+    );
+}
+
+export function OtherPage({ projectKey = 'latexlint' }: { projectKey?: Exclude<ProjectKey, 'latexpages'> }) {
     const vocabularyData = useMemo(() => getVocabularyData(), []);
+
+    if (projectKey !== 'latexlint') {
+        return (
+            <PageLayout projectKey={projectKey}>
+                <DeclarationLink />
+            </PageLayout>
+        );
+    }
 
     return (
         <PageLayout>
+            <DeclarationLink />
             <VStack align="stretch">
                 <SectionHeading>Support LaTeX Lint</SectionHeading>
                 <VStack align="stretch" gap={3}>
@@ -43,18 +67,6 @@ export function OtherPage() {
                         </Button>
                     </Link>
                 </VStack>
-            </VStack>
-            <VStack align="stretch">
-                <SectionHeading>Privacy</SectionHeading>
-                <Text>
-                    LaTeX Lint runs locally in your browser.
-                </Text>
-                <Text>
-                    Your LaTeX source code and linting results are never uploaded to any server.
-                </Text>
-                <Text>
-                    We strictly pledge never to collect, inspect, sell, or monetize your content.
-                </Text>
             </VStack>
             <VStack align="stretch">
                 <SectionHeading>Sample PDF</SectionHeading>

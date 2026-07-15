@@ -37,6 +37,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path={ROUTES.LATEXCITATION_README} element={<LatexCitationReadmePage />} />
           <Route path={`${ROUTES.LATEXCITATION_README}/`} element={<LatexCitationReadmePage />} />
           <Route path={`${ROUTES.LATEXCITATION_README}/:anchor`} element={<LatexCitationReadmePage />} />
+          <Route path={ROUTES.LATEXCITATION_OTHER} element={<OtherPage projectKey="latexcitation" />} />
+          <Route path={`${ROUTES.LATEXCITATION_OTHER}/`} element={<OtherPage projectKey="latexcitation" />} />
           <Route
             path={ROUTES.LATEXWRITING}
             element={<LatexWritingPage />}
@@ -45,6 +47,8 @@ createRoot(document.getElementById('root')!).render(
             path={`${ROUTES.LATEXWRITING}/`}
             element={<LatexWritingPage />}
           />
+          <Route path={ROUTES.LATEXWRITING_OTHER} element={<OtherPage projectKey="latexwriting" />} />
+          <Route path={`${ROUTES.LATEXWRITING_OTHER}/`} element={<OtherPage projectKey="latexwriting" />} />
           <Route path="*" element={<Navigate to={ROUTES.HUB} replace />} />
         </Routes>
       </BrowserRouter>

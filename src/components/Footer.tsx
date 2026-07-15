@@ -17,12 +17,14 @@ export type FooterLinkItem = {
     href?: string;
     to?: string;
     roundIcon?: boolean;
+    reload?: boolean;
 };
 
 const projectPageLink = (to: string): FooterLinkItem => ({
-    to,
+    href: `${BASE_URL}${to.replace(/^\//, '')}`,
     icon: 'lintIconLight_copied.svg',
     label: 'Project Page',
+    reload: true,
 });
 
 const githubRepositoryLink = (repository: string): FooterLinkItem => ({
@@ -88,7 +90,11 @@ const FooterLink = ({ item }: { item: FooterLinkItem }) => {
     }
 
     return (
-        <Link href={item.href} target="_blank" rel="noopener noreferrer">
+        <Link
+            href={item.href}
+            target={item.reload ? undefined : '_blank'}
+            rel={item.reload ? undefined : 'noopener noreferrer'}
+        >
             <LinkContent icon={item.icon} roundIcon={item.roundIcon}>
                 {item.label}
             </LinkContent>
@@ -106,7 +112,7 @@ export function Footer({ links = DEFAULT_FOOTER_LINKS }: { links?: FooterLinkIte
             <VStack gap={3}>
                 <HStack gap={5} flexWrap="wrap" justifyContent="center">
                     {links.map((link) => (
-                        <FooterLink key={link.href ?? link.to} item={link} />
+                        <FooterLink key={`${link.href ?? link.to}-${link.label}`} item={link} />
                     ))}
                 </HStack>
                 <Text fontSize="xs" color="gray.600">

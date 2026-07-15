@@ -18,6 +18,11 @@ export function ReadmeMarkdown({ content, routeBase = ROUTES.LATEXLINT_README }:
             remarkPlugins={[remarkGfm, remarkSlug]}
             rehypePlugins={[rehypeRaw]}
             components={{
+                ol: ({ children, ...props }) => (
+                    <ol {...props} style={{ ...props.style, listStyleType: 'decimal', paddingLeft: '2em' }}>
+                        {children}
+                    </ol>
+                ),
                 a: ({ href, children, ...props }) => {
                     if (href?.startsWith('#')) {
                         return <RouterLink {...props} to={`${routeBase}/${href.slice(1)}`}>{children}</RouterLink>;
