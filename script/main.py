@@ -4,6 +4,7 @@ from make_png_files import make_png_files
 from run_check_git_dependency_shas import run_check_git_dependency_shas
 from run_sync_latexcitation import run_sync_latexcitation
 from run_sync_latexlint import run_sync_latexlint
+from run_sync_latexpages import run_sync_latexpages
 from run_sync_project_metadata import run_sync_project_metadata
 from run_update_git_dependency_shas import run_update_git_dependency_shas
 from test_latexlint_config import test_latexlint_config
@@ -11,8 +12,9 @@ from test_npm_run import test_npm_run
 
 
 def main():
-    run_sync_latexlint()
     run_sync_latexcitation()
+    run_sync_latexlint()
+    run_sync_latexpages()
     run_sync_project_metadata()
     run_update_git_dependency_shas()
     run_check_git_dependency_shas()

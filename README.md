@@ -12,7 +12,7 @@ The collection currently includes:
 
 ## Declaration
 
-We strictly pledge the following principles:
+We firmly pledge the following principles:
 
 1. We never collect, access, or sell your input. Our tools run locally in your browser.
 2. This is an open-source software project, not intended for commercial gain.

@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import 'github-markdown-css/github-markdown-light.css';
 import { Link as RouterLink } from 'react-router-dom';
-import declarationContent from '../assets/latexpages_README.md?raw';
+import latexpagesReadmeContent from '../assets/latexpages_README.md?raw';
 import { PROJECT_METADATA } from '../constants/projectMetadata';
 import { FOOTER_LINK_SETS } from '../components/Footer';
 import { PageLayout } from '../components/layout/PageLayout';
@@ -29,6 +29,19 @@ const PROJECTS: ProjectItem[] = [
     PROJECT_METADATA.latexcitation,
     PROJECT_METADATA.latexwriting,
 ];
+
+function extractMarkdownSection(content: string, heading: string) {
+    const lines = content.split(/\r?\n/);
+    const start = lines.findIndex((line) => line.trim() === heading);
+    if (start === -1) {
+        return '';
+    }
+
+    const end = lines.findIndex((line, index) => index > start && line.startsWith('#'));
+    return lines.slice(start, end === -1 ? undefined : end).join('\n').trimEnd() + '\n';
+}
+
+const declarationContent = extractMarkdownSection(latexpagesReadmeContent, '## Declaration');
 
 function ProjectCard({ project }: { project: ProjectItem }) {
     const isAvailable = project.status === 'available';
