@@ -10,6 +10,8 @@ type TopNavHeaderProps = {
     projectHomePath?: string;
 };
 
+export const TOP_NAV_HEADER_HEIGHT = 56;
+
 export function TopNavHeader({
     navItems = PROJECT_HEADER_CONFIGS.latexlint.navItems,
     pageLabel = 'LaTeX Lint',
@@ -40,6 +42,7 @@ export function TopNavHeader({
             bg="whiteAlpha.900"
             borderBottomWidth="1px"
             borderColor="gray.200"
+            h={`${TOP_NAV_HEADER_HEIGHT}px`}
             py={1}
             px={{ base: 1.5, sm: 2, md: 4 }}
             backdropFilter="blur(8px)"

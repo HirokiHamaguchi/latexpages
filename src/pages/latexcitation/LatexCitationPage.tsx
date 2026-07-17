@@ -15,6 +15,7 @@ import defaultBibText from '../../assets/default-latexcitation.bib?raw';
 import { FOOTER_LINK_SETS } from '../../components/Footer';
 import { Hero } from '../../components/hero/Hero';
 import { PageLayout } from '../../components/layout/PageLayout';
+import { TOP_NAV_HEADER_HEIGHT } from '../../components/TopNavHeader';
 import { PROJECT_METADATA } from '../../constants/projectMetadata';
 
 const TYPE_COLORS = [
@@ -45,8 +46,11 @@ const MIN_FIELD_COLUMN_WIDTH = 40;
 const MIN_KEY_COLUMN_WIDTH = 140;
 const MAX_KEY_COLUMN_WIDTH = 320;
 const KEY_COLUMN_VIEWPORT_RATIO = 0.3;
-const FLOATING_HEADER_TOP_SPACING = 72;
-const FLOATING_HEADER_RADIUS_MASK_OVERLAP = 12;
+const FIELD_TABLE_STACK_GAP = 16;
+const FLOATING_HEADER_CORNER_RADIUS = 6;
+const FLOATING_HEADER_TOP_SPACING = TOP_NAV_HEADER_HEIGHT + FIELD_TABLE_STACK_GAP;
+const FLOATING_HEADER_MASK_TOP_OFFSET = -FIELD_TABLE_STACK_GAP;
+const FLOATING_HEADER_MASK_HEIGHT = FIELD_TABLE_STACK_GAP + FLOATING_HEADER_CORNER_RADIUS;
 const TABLE_BAR_HEIGHT = 52;
 const TABLE_HEADER_HEIGHT = 42;
 const FLOATING_HEADER_Z_INDEX = 900;
@@ -411,21 +415,28 @@ function FloatingTableHeader({
                 top={`${FLOATING_HEADER_TOP_SPACING}px`}
                 zIndex={FLOATING_HEADER_Z_INDEX}
             >
+                {/* The sticky mask covers exactly the inter-table gap: its top edge aligns with the page header bottom,
+                    its distance to the floating header top matches the previous table's bottom gap, and its bottom
+                    extends one header corner radius below the floating header top to preserve the rounded corners. */}
                 <Box
                     position="absolute"
-                    top={`-${FLOATING_HEADER_RADIUS_MASK_OVERLAP * 3}px`}
+                    top={`${FLOATING_HEADER_MASK_TOP_OFFSET}px`}
                     left="-0.5%"
                     w="101%"
-                    h={`${FLOATING_HEADER_RADIUS_MASK_OVERLAP * 4}px`}
-                    bg="gray.50"
+                    h={`${FLOATING_HEADER_MASK_HEIGHT}px`}
+                    bg="white"
                     pointerEvents="none"
                     zIndex={0}
                     aria-hidden="true"
                 />
                 <Box
                     position="relative"
+                    ml="-4px"
                     bg={color.bg}
-                    borderTopRadius="md"
+                    borderLeftWidth="4px"
+                    borderLeftColor={color.border}
+                    borderTopLeftRadius={`${FLOATING_HEADER_CORNER_RADIUS}px`}
+                    borderTopRightRadius={`${FLOATING_HEADER_CORNER_RADIUS}px`}
                     boxShadow="sm"
                     overflow="hidden"
                     zIndex={1}
