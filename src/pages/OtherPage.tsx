@@ -22,7 +22,12 @@ function DeclarationLink() {
             <SectionHeading>Declaration</SectionHeading>
             <Text>
                 Our commitments on development, privacy, and non-commercial operation are described in the{' '}
-                <Link href={`${BASE_URL}#declaration`} color="blue.600" textDecoration="underline">
+                <Link
+                    href={`${BASE_URL}#declaration`}
+                    color="blue.600"
+                    textDecoration="none"
+                    _hover={{ textDecoration: 'underline' }}
+                >
                     LaTeX Pages declaration
                 </Link>.
             </Text>

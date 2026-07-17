@@ -2,6 +2,7 @@ import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate'
 import { ROUTES } from './constants/routes'
 import { Content } from './content'
 import { HubPage } from './pages/HubPage'
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ChakraProvider value={defaultSystem}>
       <BrowserRouter basename={routerBasename}>
+        <ScrollToTopOnNavigate />
         <Routes>
           <Route path={ROUTES.HUB} element={<HubPage />} />
           <Route path={ROUTES.LATEXLINT} element={<Content />} />
