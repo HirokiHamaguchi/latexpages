@@ -1,5 +1,12 @@
-import { analyzeBibFields, parseBib } from '@latexcitation/index';
-import type { BibEntry, BibFieldGroup } from '@latexcitation/index';
+import {
+    analyzeBibDocument,
+    BIB_DATE_FIELDS,
+    getBibFieldColumns,
+    isLowPriorityBibField,
+    isModernBookMissingIsbn,
+    isPre1970BookMissingIsbn,
+} from '@latexcitation/index';
+import type { BibEntry, BibFieldGroup, BibVariationCandidate } from '@latexcitation/index';
 import {
     Badge,
     Box,
@@ -25,21 +32,6 @@ const TYPE_COLORS = [
     { bg: '#FAF5FF', border: '#805AD5', badge: 'purple' },
     { bg: '#FFF5F5', border: '#E53E3E', badge: 'red' },
 ] as const;
-
-const DATE_FIELDS = ['year', 'month', 'day'] as const;
-const LOW_PRIORITY_FIELDS = new Set([
-    'abstract',
-    'archiveprefix',
-    'copyright',
-    'eprint',
-    'file',
-    'keywords',
-    'langid',
-    'primaryclass',
-    'urldate',
-]);
-const BOOK_LIKE_TYPES = new Set(['book', 'inbook', 'incollection', 'proceedings']);
-const VARIATION_FIELDS = ['author', 'editor', 'publisher', 'journal', 'booktitle', 'school', 'institution'];
 const TABLE_CELL_PADDING = '8px 8px';
 const TABLE_CELL_HORIZONTAL_PADDING = 16;
 const MIN_FIELD_COLUMN_WIDTH = 40;
@@ -56,12 +48,6 @@ const TABLE_HEADER_HEIGHT = 42;
 const FLOATING_HEADER_Z_INDEX = 900;
 
 type FieldColumn = 'date' | string;
-
-type VariationCandidate = {
-    field: string;
-    label: string;
-    values: string[];
-};
 
 type HoverPreview = {
     x: number;
@@ -81,152 +67,6 @@ function colorForType(type: string) {
     return TYPE_COLORS[index % TYPE_COLORS.length];
 }
 
-function getEntryYear(entry: BibEntry) {
-    const year = Number.parseInt(entry.fields.year ?? '', 10);
-    return Number.isFinite(year) ? year : undefined;
-}
-
-function isModernBookMissingIsbn(entry: BibEntry) {
-    const year = getEntryYear(entry);
-    return BOOK_LIKE_TYPES.has(entry.type) && !entry.fields.isbn && year !== undefined && year >= 1970;
-}
-
-function isPre1970BookMissingIsbn(entry: BibEntry) {
-    const year = getEntryYear(entry);
-    return BOOK_LIKE_TYPES.has(entry.type) && !entry.fields.isbn && year !== undefined && year < 1970;
-}
-
-function getFieldColumns(group: BibFieldGroup, showLowPriority: boolean): FieldColumn[] {
-    const fieldNames = new Set(group.fieldNames);
-    if (BOOK_LIKE_TYPES.has(group.type)) fieldNames.add('isbn');
-    const hasDateFields = DATE_FIELDS.some((field) => fieldNames.has(field));
-    const fields = Array.from(fieldNames).filter((field) => {
-        if (DATE_FIELDS.includes(field as (typeof DATE_FIELDS)[number])) return false;
-        return showLowPriority || !LOW_PRIORITY_FIELDS.has(field);
-    });
-    const titleIndex = fields.indexOf('title');
-    if (!hasDateFields) return fields;
-    const insertIndex = titleIndex >= 0 ? titleIndex + 1 : Math.min(3, fields.length);
-    return [...fields.slice(0, insertIndex), 'date', ...fields.slice(insertIndex)];
-}
-
-function normalizeBibValue(value: string) {
-    return value
-        .replace(/[{}]/g, '')
-        .replace(/\\[A-Za-z]+/g, '')
-        .replace(/\\./g, '')
-        .replace(/&/g, ' and ')
-        .replace(/\b(inc|ltd|llc|co|press|publishing|publishers)\b/g, '')
-        .replace(/[^A-Za-z0-9]+/g, ' ')
-        .trim()
-        .replace(/\s+/g, ' ')
-        .toLowerCase();
-}
-
-function levenshtein(left: string, right: string) {
-    const costs = Array.from({ length: right.length + 1 }, (_, index) => index);
-    for (let i = 1; i <= left.length; i += 1) {
-        let previous = costs[0];
-        costs[0] = i;
-        for (let j = 1; j <= right.length; j += 1) {
-            const current = costs[j];
-            costs[j] = left[i - 1] === right[j - 1]
-                ? previous
-                : Math.min(previous, costs[j - 1], costs[j]) + 1;
-            previous = current;
-        }
-    }
-    return costs[right.length];
-}
-
-function similarity(left: string, right: string) {
-    const maxLength = Math.max(left.length, right.length);
-    if (maxLength === 0) return 1;
-    return 1 - levenshtein(left, right) / maxLength;
-}
-
-function splitNameList(value: string) {
-    return value.split(/\s+and\s+/i).map((part) => part.trim()).filter(Boolean);
-}
-
-function detectVariationCandidates(entries: BibEntry[]): VariationCandidate[] {
-    const candidates: VariationCandidate[] = [];
-
-    for (const field of VARIATION_FIELDS) {
-        const values = entries.flatMap((entry) => {
-            const value = entry.fields[field];
-            if (!value) return [];
-            return field === 'author' || field === 'editor' ? splitNameList(value) : [value];
-        });
-        const uniqueValues = Array.from(new Set(values));
-        const byNormalized = new Map<string, Set<string>>();
-
-        for (const value of uniqueValues) {
-            const normalized = normalizeBibValue(value);
-            if (!normalized) continue;
-            const set = byNormalized.get(normalized) ?? new Set<string>();
-            set.add(value);
-            byNormalized.set(normalized, set);
-        }
-
-        for (const [normalized, originals] of byNormalized.entries()) {
-            if (originals.size > 1) {
-                candidates.push({ field, label: normalized, values: Array.from(originals).sort() });
-            }
-        }
-
-        const normalizedValues = Array.from(byNormalized.keys());
-        for (let leftIndex = 0; leftIndex < normalizedValues.length; leftIndex += 1) {
-            for (let rightIndex = leftIndex + 1; rightIndex < normalizedValues.length; rightIndex += 1) {
-                const left = normalizedValues[leftIndex];
-                const right = normalizedValues[rightIndex];
-                if (left.length < 5 || right.length < 5) continue;
-                if (similarity(left, right) >= 0.88) {
-                    candidates.push({
-                        field,
-                        label: `${left} / ${right}`,
-                        values: [
-                            ...Array.from(byNormalized.get(left) ?? []),
-                            ...Array.from(byNormalized.get(right) ?? []),
-                        ].sort(),
-                    });
-                }
-            }
-        }
-    }
-
-    return candidates.slice(0, 12);
-}
-
-function buildConsistencyNotes(groups: BibFieldGroup[], entries: BibEntry[]) {
-    const notes: string[] = [];
-
-    for (const group of groups) {
-        const importantFields = group.fieldNames.filter((field) => !LOW_PRIORITY_FIELDS.has(field));
-        for (const field of importantFields) {
-            const presentCount = group.rows.filter((row) => row.fields[field]).length;
-            if (presentCount > 0 && presentCount < group.rows.length) {
-                notes.push(`@${group.type}: ${field} is present in ${presentCount}/${group.rows.length} entries.`);
-            }
-        }
-    }
-
-    const modernBooksMissingIsbn = entries.filter(isModernBookMissingIsbn);
-    if (modernBooksMissingIsbn.length > 0) {
-        notes.push(`${modernBooksMissingIsbn.length} post-1970 book-like entries are missing ISBN.`);
-    }
-
-    const partialDates = entries.filter((entry) => {
-        const fields = DATE_FIELDS.filter((field) => Boolean(entry.fields[field]));
-        return fields.length > 0 && !entry.fields.year;
-    });
-    if (partialDates.length > 0) {
-        notes.push(`${partialDates.length} entries have month/day without year.`);
-    }
-
-    return notes.slice(0, 8);
-}
-
 function FieldCell({ entry, field }: { entry: BibEntry; field: string }) {
     if (field === 'isbn' && isModernBookMissingIsbn(entry)) {
         return <Text as="span" color="orange.700" fontWeight="bold" title="Post-1970 book-like entry without ISBN">!</Text>;
@@ -238,7 +78,7 @@ function FieldCell({ entry, field }: { entry: BibEntry; field: string }) {
 }
 
 function DateCell({ entry }: { entry: BibEntry }) {
-    const presentCount = DATE_FIELDS.filter((field) => Boolean(entry.fields[field])).length;
+    const presentCount = BIB_DATE_FIELDS.filter((field) => Boolean(entry.fields[field])).length;
     const label = presentCount > 0 ? '\u2713'.repeat(presentCount) : '';
 
     return (
@@ -250,7 +90,7 @@ function DateCell({ entry }: { entry: BibEntry }) {
 
 function getPreviewValue(entry: BibEntry, column: FieldColumn) {
     if (column === 'date') {
-        return DATE_FIELDS
+        return BIB_DATE_FIELDS
             .map((field) => `${field}: ${entry.fields[field] || '-'}`)
             .join('\n');
     }
@@ -502,8 +342,8 @@ function FieldPresenceTable({ group, entries }: { group: BibFieldGroup; entries:
     const viewportWidth = useViewportWidth();
     const color = colorForType(group.type);
     const entryByKey = new Map(entries.map((entry) => [entry.key, entry]));
-    const lowPriorityCount = group.fieldNames.filter((field) => LOW_PRIORITY_FIELDS.has(field)).length;
-    const columns = getFieldColumns(group, showLowPriority);
+    const lowPriorityCount = group.fieldNames.filter((field) => isLowPriorityBibField(field)).length;
+    const columns = getBibFieldColumns(group, showLowPriority);
     const columnWidths = columns.map(computeFieldColumnWidth);
     const keyColumnWidth = computeKeyColumnWidth(viewportWidth);
     const tableWidth = keyColumnWidth + columnWidths.reduce((sum, width) => sum + width, 0);
@@ -641,7 +481,7 @@ function ConsistencyNotes({ notes }: { notes: string[] }) {
     );
 }
 
-function VariationSummary({ candidates }: { candidates: VariationCandidate[] }) {
+function VariationSummary({ candidates }: { candidates: BibVariationCandidate[] }) {
     return (
         <Box borderWidth="1px" borderColor="gray.200" borderRadius="md" bg="white" p={4}>
             <VStack align="stretch" gap={3}>
@@ -667,19 +507,16 @@ function VariationSummary({ candidates }: { candidates: VariationCandidate[] }) 
 export function LatexCitationPage() {
     const [bibText, setBibText] = useState(defaultBibText);
     const [bblText, setBblText] = useState('');
-    const analysis = useMemo(() => analyzeBibFields(bibText), [bibText]);
-    const parsedEntries = useMemo(() => parseBib(bibText).entries, [bibText]);
+    const analysis = useMemo(() => analyzeBibDocument(bibText), [bibText]);
     const entriesByType = useMemo(() => {
         const map = new Map<string, BibEntry[]>();
-        for (const entry of parsedEntries) {
+        for (const entry of analysis.entries) {
             const entries = map.get(entry.type) ?? [];
             entries.push(entry);
             map.set(entry.type, entries);
         }
         return map;
-    }, [parsedEntries]);
-    const consistencyNotes = useMemo(() => buildConsistencyNotes(analysis.groups, parsedEntries), [analysis.groups, parsedEntries]);
-    const variationCandidates = useMemo(() => detectVariationCandidates(parsedEntries), [parsedEntries]);
+    }, [analysis.entries]);
     const bblStatus = bblText.trim() ? 'BBL provided' : 'Bib-only';
 
     return (
@@ -741,7 +578,7 @@ export function LatexCitationPage() {
                     </Box>
                 )}
 
-                <ConsistencyNotes notes={consistencyNotes} />
+                <ConsistencyNotes notes={analysis.consistencyNotes} />
 
                 <VStack align="stretch" gap={4}>
                     {analysis.groups.map((group) => (
@@ -758,7 +595,7 @@ export function LatexCitationPage() {
                     )}
                 </VStack>
 
-                <VariationSummary candidates={variationCandidates} />
+                <VariationSummary candidates={analysis.variationCandidates} />
             </VStack>
         </PageLayout>
     );
