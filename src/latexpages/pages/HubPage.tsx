@@ -10,11 +10,11 @@ import {
 } from '@chakra-ui/react';
 import 'github-markdown-css/github-markdown-light.css';
 import { Link as RouterLink } from 'react-router-dom';
-import { PROJECTS as PROJECT_REGISTRY } from '../app/projects/projectRegistry';
-import latexpagesReadmeContent from '../assets/latexpages_README.md?raw';
-import { PageLayout } from '../components/layout/PageLayout';
-import { Hero } from '../components/hero/Hero';
-import { ReadmeMarkdown } from './readme/ReadmeMarkdown';
+import { PROJECTS as PROJECT_REGISTRY } from '../../app/projects/projectRegistry';
+import latexpagesReadmeContent from '../../assets/latexpages_README.md?raw';
+import { Hero } from '../../components/hero/Hero';
+import { PageLayout } from '../../components/layout/PageLayout';
+import { ReadmeMarkdown } from '../../pages/readme/ReadmeMarkdown';
 
 type ProjectItem = {
     label: string;

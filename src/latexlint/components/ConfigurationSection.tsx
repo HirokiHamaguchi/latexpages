@@ -8,9 +8,9 @@ import {
     VStack
 } from '@chakra-ui/react';
 import { LuCircleHelp } from "react-icons/lu";
-import { configMetadata, type LintConfig } from '../config';
-import { DocType } from '../types';
-import { SectionHeading } from './typography/SectionHeading';
+import { SectionHeading } from '../../components/typography/SectionHeading';
+import { configMetadata, type LintConfig } from '../../config';
+import { DocType } from '../../types';
 
 type ConfigKey = keyof LintConfig;
 

@@ -1,10 +1,5 @@
-export { ConfigurationSection } from "./ConfigurationSection";
-export { DiagnosticsSection } from "./DiagnosticsSection";
-export { EditorSection } from "./EditorSection";
 export { Footer } from "./Footer";
-export { DocTypeSwitch } from "./home/DocTypeSwitch";
 export { Hero } from "./hero/Hero";
-export { SampleSection } from "./home/SampleSection";
 export { PageLayout } from "./layout/PageLayout";
 export { TopNavHeader } from "./TopNavHeader";
 export { SectionHeading } from "./typography/SectionHeading";

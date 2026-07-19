@@ -13,8 +13,8 @@ import { useMemo, useState } from 'react';
 import defaultBibText from '../../assets/default-latexcitation.bib?raw';
 import { Hero } from '../../components/hero/Hero';
 import { PageLayout } from '../../components/layout/PageLayout';
-import { FieldPresenceTable } from './FieldPresenceTable';
-import { ConsistencyNotes, VariationSummary } from './SummarySections';
+import { FieldPresenceTable } from '../components/FieldPresenceTable';
+import { ConsistencyNotes, VariationSummary } from '../components/SummarySections';
 
 export function LatexCitationPage() {
     const [bibText, setBibText] = useState(defaultBibText);

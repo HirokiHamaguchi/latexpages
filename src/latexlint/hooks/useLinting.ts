@@ -1,7 +1,7 @@
 import type * as Monaco from 'monaco-editor';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { DocType, LintingState } from '../types';
-import { lintLatex } from '../utils';
+import { DocType, LintingState } from '../../types';
+import { lintLatex } from '../../utils';
 
 const LINT_COMPLETE_DELAY_MS = 100;
 const INPUT_LINT_DELAY_MS = 500;

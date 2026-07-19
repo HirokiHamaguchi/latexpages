@@ -2,18 +2,19 @@ import { HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import type * as monaco from 'monaco-editor';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ConfigurationSection, EditorSection } from '../../../components';
-import { DiagnosticsSection } from '../../../components/DiagnosticsSection';
-import { DocTypeSwitch } from '../../../components/home/DocTypeSwitch';
-import { Hero } from '../../../components/hero/Hero';
-import { SampleSection } from '../../../components/home/SampleSection';
-import { PageLayout } from '../../../components/layout/PageLayout';
-import { PROJECTS } from '../../../app/projects/projectRegistry';
-import { ROUTES } from '../../../constants/routes';
-import { DEFAULT_DOC_TYPE, SAMPLES } from '../../../constants/samples';
-import { useConfig, useLinting } from '../../../hooks';
-import { DocType, LintingState } from '../../../types';
-import { preloadTextLintDictionary } from '../../../utils';
+import { PROJECTS } from '../../app/projects/projectRegistry';
+import { Hero } from '../../components/hero/Hero';
+import { PageLayout } from '../../components/layout/PageLayout';
+import { ROUTES } from '../../constants/routes';
+import { DEFAULT_DOC_TYPE, SAMPLES } from '../../constants/samples';
+import { DocType, LintingState } from '../../types';
+import { preloadTextLintDictionary } from '../../utils';
+import { ConfigurationSection } from '../components/ConfigurationSection';
+import { DiagnosticsSection } from '../components/DiagnosticsSection';
+import { EditorSection } from '../components/EditorSection';
+import { DocTypeSwitch } from '../components/home/DocTypeSwitch';
+import { SampleSection } from '../components/home/SampleSection';
+import { useConfig, useLinting } from '../hooks';
 
 const getStatusParts = (state: LintingState) => {
     switch (state) {

@@ -4,7 +4,7 @@ import {
     type LintConfig,
     setConfig as setGlobalConfig,
     subscribeConfig,
-} from '../config';
+} from '../../config';
 
 export function useConfig() {
     const config = useSyncExternalStore(subscribeConfig, getConfig, getConfig);

@@ -1,5 +1,5 @@
 import { Box, Button, HStack } from '@chakra-ui/react';
-import type { DocType } from '../../types';
+import type { DocType } from '../../../types';
 
 type DocTypeSwitchProps = {
     docType: DocType;

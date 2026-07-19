@@ -5,50 +5,23 @@ import {
     Icon,
     Link,
     Text,
-    VStack
+    VStack,
 } from '@chakra-ui/react';
 import { getVocabularyData } from '@latexlint/TextLint/vocabulary_loader';
 import { useMemo } from 'react';
 import { FaStar } from 'react-icons/fa';
-import type { ProjectKey } from '../app/projects/projectRegistry';
-import { PageLayout } from '../components/layout/PageLayout';
-import { BASE_URL } from '../constants/app';
-import { SectionHeading } from '../components/typography/SectionHeading';
-import { VocabularyTable } from './overview/VocabularyTable';
+import { DeclarationSection } from '../../components/DeclarationSection';
+import { PageLayout } from '../../components/layout/PageLayout';
+import { SectionHeading } from '../../components/typography/SectionHeading';
+import { BASE_URL } from '../../constants/app';
+import { VocabularyTable } from '../components/overview/VocabularyTable';
 
-function DeclarationLink() {
-    return (
-        <VStack align="stretch">
-            <SectionHeading>Declaration</SectionHeading>
-            <Text>
-                Our commitments on development, privacy, and non-commercial operation are described in the{' '}
-                <Link
-                    href={`${BASE_URL}#declaration`}
-                    color="blue.600"
-                    textDecoration="none"
-                    _hover={{ textDecoration: 'underline' }}
-                >
-                    LaTeX Pages declaration
-                </Link>.
-            </Text>
-        </VStack>
-    );
-}
-
-export function OtherPage({ projectKey = 'latexlint' }: { projectKey?: Exclude<ProjectKey, 'latexpages'> }) {
+export function LatexLintOtherPage() {
     const vocabularyData = useMemo(() => getVocabularyData(), []);
 
-    if (projectKey !== 'latexlint') {
-        return (
-            <PageLayout projectKey={projectKey}>
-                <DeclarationLink />
-            </PageLayout>
-        );
-    }
-
     return (
-        <PageLayout>
-            <DeclarationLink />
+        <PageLayout projectKey="latexlint">
+            <DeclarationSection />
             <VStack align="stretch">
                 <SectionHeading>Support LaTeX Lint</SectionHeading>
                 <VStack align="stretch" gap={3}>

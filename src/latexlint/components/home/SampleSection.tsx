@@ -1,6 +1,6 @@
 import { Grid, Heading, Image, Text, VStack } from '@chakra-ui/react';
-import { BASE_URL } from '../../constants/app';
-import { SectionHeading } from '../typography/SectionHeading';
+import { BASE_URL } from '../../../constants/app';
+import { SectionHeading } from '../../../components/typography/SectionHeading';
 
 type SampleImageProps = {
     src: string;
