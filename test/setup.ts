@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 // kuromoji.jsをグローバル変数としてロード
-import * as kuromojiModule from '../public/kuromoji.js';
+import * as kuromojiModule from '../public/vendor/kuromoji/upstream/kuromoji.js';
 
 // windowオブジェクトをグローバルに追加し、kuromojiを設定
 global.window = global.window || {};

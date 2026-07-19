@@ -1,8 +1,9 @@
 import { Box, HStack, Image, Text } from '@chakra-ui/react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { PROJECTS } from '../app/projects/projectRegistry';
+import type { NavItem } from '../app/projects/projectRegistry';
 import { BASE_URL } from '../constants/app';
-import { PROJECT_HEADER_CONFIGS, ROUTES } from '../constants/routes';
-import type { NavItem } from '../constants/routes';
+import { ROUTES } from '../constants/routes';
 
 type TopNavHeaderProps = {
     navItems?: readonly NavItem[];
@@ -13,7 +14,7 @@ type TopNavHeaderProps = {
 export const TOP_NAV_HEADER_HEIGHT = 56;
 
 export function TopNavHeader({
-    navItems = PROJECT_HEADER_CONFIGS.latexlint.navItems,
+    navItems = PROJECTS.latexlint.navItems,
     pageLabel = 'LaTeX Lint',
     projectHomePath = ROUTES.LATEXLINT,
 }: TopNavHeaderProps) {
@@ -23,10 +24,7 @@ export function TopNavHeader({
 
     const isActive = (path: string) => {
         const targetPath = normalizePath(path);
-        if (path === ROUTES.LATEXLINT_README) {
-            return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`);
-        }
-        if (path === ROUTES.LATEXCITATION_README) {
+        if (targetPath.endsWith('/readme')) {
             return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`);
         }
         return currentPath === targetPath;

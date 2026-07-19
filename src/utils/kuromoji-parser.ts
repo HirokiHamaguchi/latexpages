@@ -1,3 +1,5 @@
+import { loadKuromoji } from "../vendor/kuromoji/loadKuromoji";
+
 interface KuromojiToken {
   word_id: number;
   word_type: "KNOWN" | "UNKNOWN";
@@ -40,16 +42,15 @@ let tokenizerCache: Tokenizer | null = null;
 let tokenizerPromise: Promise<Tokenizer> | null = null;
 
 function getKuromojiDictPath(): string {
-  const script = document.querySelector<HTMLScriptElement>('script[src$="kuromoji.js"]');
-  if (!script?.src) return "dict";
-
-  const dictUrl = new URL("dict", script.src);
-  return dictUrl.pathname;
+  const baseUrl = import.meta.env.BASE_URL || "/";
+  return `${baseUrl.replace(/\/$/, "")}/dict`;
 }
 
 async function getTokenizer(): Promise<Tokenizer> {
   if (tokenizerCache) return tokenizerCache;
   if (tokenizerPromise) return tokenizerPromise;
+
+  await loadKuromoji();
 
   tokenizerPromise = new Promise((resolve, reject) => {
     const dicPath = getKuromojiDictPath();

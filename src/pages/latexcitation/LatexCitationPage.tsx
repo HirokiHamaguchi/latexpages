@@ -1,5 +1,6 @@
 import { analyzeBibDocument } from '@latexcitation/index';
 import type { BibEntry } from '@latexcitation/index';
+import { PROJECTS } from '../../app/projects/projectRegistry';
 import {
     Badge,
     Box,
@@ -10,10 +11,8 @@ import {
 } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import defaultBibText from '../../assets/default-latexcitation.bib?raw';
-import { FOOTER_LINK_SETS } from '../../components/Footer';
 import { Hero } from '../../components/hero/Hero';
 import { PageLayout } from '../../components/layout/PageLayout';
-import { PROJECT_METADATA } from '../../constants/projectMetadata';
 import { FieldPresenceTable } from './FieldPresenceTable';
 import { ConsistencyNotes, VariationSummary } from './SummarySections';
 
@@ -33,16 +32,13 @@ export function LatexCitationPage() {
     const bblStatus = bblText.trim() ? 'BBL provided' : 'Bib-only';
 
     return (
-        <PageLayout
-            footerLinks={FOOTER_LINK_SETS.latexcitation}
-            projectKey="latexcitation"
-        >
+        <PageLayout projectKey="latexcitation">
             <VStack gap={6} align="stretch">
                 <VStack align="stretch" gap={1}>
                     <Hero
-                        label={PROJECT_METADATA.latexcitation.label}
-                        subtitle={PROJECT_METADATA.latexcitation.description}
-                        iconAlt={PROJECT_METADATA.latexcitation.label}
+                        label={PROJECTS.latexcitation.label}
+                        subtitle={PROJECTS.latexcitation.description}
+                        iconAlt={PROJECTS.latexcitation.label}
                     />
                     <Badge colorPalette="red" alignSelf="center">Under Construction</Badge>
                     <Badge colorPalette={bblText.trim() ? 'green' : 'gray'} alignSelf="center">{bblStatus}</Badge>

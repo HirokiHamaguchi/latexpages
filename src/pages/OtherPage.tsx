@@ -10,11 +10,11 @@ import {
 import { getVocabularyData } from '@latexlint/TextLint/vocabulary_loader';
 import { useMemo } from 'react';
 import { FaStar } from 'react-icons/fa';
+import type { ProjectKey } from '../app/projects/projectRegistry';
 import { PageLayout } from '../components/layout/PageLayout';
 import { BASE_URL } from '../constants/app';
 import { SectionHeading } from '../components/typography/SectionHeading';
 import { VocabularyTable } from './overview/VocabularyTable';
-import { type ProjectKey } from '../constants/routes';
 
 function DeclarationLink() {
     return (

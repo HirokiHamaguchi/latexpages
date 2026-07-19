@@ -1,28 +1,28 @@
-import { ROUTES } from './routes';
+import { PROJECTS } from '../app/projects/projectRegistry';
 
 export const PROJECT_METADATA = {
     latexpages: {
-        label: 'LaTeX Pages',
-        description: 'Web versions of LaTeX tools and notes for academic writing.',
+        label: PROJECTS.latexpages.label,
+        description: PROJECTS.latexpages.description,
     },
     latexlint: {
-        label: 'LaTeX Lint',
-        description: 'Linter to detect common LaTeX and academic writing issues.',
-        tagline: 'Linter to detect common LaTeX and academic writing issues',
-        status: 'available',
-        path: ROUTES.LATEXLINT,
+        label: PROJECTS.latexlint.label,
+        description: PROJECTS.latexlint.description,
+        tagline: PROJECTS.latexlint.tagline,
+        status: PROJECTS.latexlint.status,
+        path: PROJECTS.latexlint.path,
     },
     latexcitation: {
-        label: 'LaTeX Citation',
-        description: 'Experimental citation consistency checker for LaTeX projects that visualizes BibTeX field usage.',
-        status: 'construction',
-        path: ROUTES.LATEXCITATION,
+        label: PROJECTS.latexcitation.label,
+        description: PROJECTS.latexcitation.description,
+        status: PROJECTS.latexcitation.status,
+        path: PROJECTS.latexcitation.path,
     },
     latexwriting: {
-        label: 'LaTeX Writing',
-        description: 'Under-construction collection of notes and utilities for academic writing with LaTeX.',
-        status: 'construction',
-        path: ROUTES.LATEXWRITING,
+        label: PROJECTS.latexwriting.label,
+        description: PROJECTS.latexwriting.description,
+        status: PROJECTS.latexwriting.status,
+        path: PROJECTS.latexwriting.path,
     },
 } as const;
 

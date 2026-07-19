@@ -4,14 +4,19 @@ import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import remarkSlug from 'remark-slug';
 import { ROUTES } from '../../constants/routes';
-import { GITHUB_RAW_BASE } from './constants';
+import { DEFAULT_README_RAW_BASE } from './constants';
 
 type ReadmeMarkdownProps = {
     content: string;
     routeBase?: string;
+    rawBaseUrl?: string;
 };
 
-export function ReadmeMarkdown({ content, routeBase = ROUTES.LATEXLINT_README }: ReadmeMarkdownProps) {
+export function ReadmeMarkdown({
+    content,
+    routeBase = ROUTES.LATEXLINT_README,
+    rawBaseUrl = DEFAULT_README_RAW_BASE,
+}: ReadmeMarkdownProps) {
     return (
         <Markdown
             // @ts-expect-error: Type '() => void | Transformer<Root, Root>' is not assignable to type 'Pluggable'.
@@ -31,7 +36,7 @@ export function ReadmeMarkdown({ content, routeBase = ROUTES.LATEXLINT_README }:
                     return <a {...props} href={href}>{children}</a>;
                 },
                 img: ({ src, ...props }) => {
-                    const resolvedSrc = src?.startsWith('http') ? src : `${GITHUB_RAW_BASE}${src}`;
+                    const resolvedSrc = src?.startsWith('http') ? src : `${rawBaseUrl}${src}`;
                     if ('width' in props) return <img {...props} src={resolvedSrc} />;
                     return (
                         <span style={{ display: 'flex', justifyContent: 'center', margin: '1em 0' }}>

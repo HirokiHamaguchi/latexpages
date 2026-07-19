@@ -2,18 +2,18 @@ import { HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import type * as monaco from 'monaco-editor';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ConfigurationSection, EditorSection } from './components';
-import { DiagnosticsSection } from './components/DiagnosticsSection';
-import { DocTypeSwitch } from './components/home/DocTypeSwitch';
-import { Hero } from './components/hero/Hero';
-import { SampleSection } from './components/home/SampleSection';
-import { PageLayout } from './components/layout/PageLayout';
-import { PROJECT_METADATA } from './constants/projectMetadata';
-import { ROUTES } from './constants/routes';
-import { DEFAULT_DOC_TYPE, SAMPLES } from './constants/samples';
-import { useConfig, useLinting } from './hooks';
-import { DocType, LintingState } from './types';
-import { preloadTextLintDictionary } from './utils';
+import { ConfigurationSection, EditorSection } from '../../../components';
+import { DiagnosticsSection } from '../../../components/DiagnosticsSection';
+import { DocTypeSwitch } from '../../../components/home/DocTypeSwitch';
+import { Hero } from '../../../components/hero/Hero';
+import { SampleSection } from '../../../components/home/SampleSection';
+import { PageLayout } from '../../../components/layout/PageLayout';
+import { PROJECTS } from '../../../app/projects/projectRegistry';
+import { ROUTES } from '../../../constants/routes';
+import { DEFAULT_DOC_TYPE, SAMPLES } from '../../../constants/samples';
+import { useConfig, useLinting } from '../../../hooks';
+import { DocType, LintingState } from '../../../types';
+import { preloadTextLintDictionary } from '../../../utils';
 
 const getStatusParts = (state: LintingState) => {
     switch (state) {
@@ -23,7 +23,7 @@ const getStatusParts = (state: LintingState) => {
     }
 };
 
-export function Content() {
+export function LatexLintPage() {
     const [docType, setDocType] = useState<DocType>(DEFAULT_DOC_TYPE);
     const [text, setText] = useState(SAMPLES[DEFAULT_DOC_TYPE]);
     const [isEditorReady, setIsEditorReady] = useState(false);
@@ -104,10 +104,10 @@ export function Content() {
     }, [isEditorReady, runLint]);
 
     return (
-        <PageLayout>
+        <PageLayout projectKey="latexlint">
             <Hero
-                label={PROJECT_METADATA.latexlint.label}
-                subtitle={PROJECT_METADATA.latexlint.tagline}
+                label={PROJECTS.latexlint.label}
+                subtitle={PROJECTS.latexlint.tagline ?? PROJECTS.latexlint.description}
                 iconAlt="LaTeX Lint Icon"
             />
             <VStack align="stretch">
@@ -167,6 +167,6 @@ export function Content() {
                     onOpenAboutWithHash={handleOpenAboutWithHash}
                 />
             </VStack>
-        </PageLayout >
+        </PageLayout>
     );
 }

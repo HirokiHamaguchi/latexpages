@@ -10,9 +10,8 @@ import {
 } from '@chakra-ui/react';
 import 'github-markdown-css/github-markdown-light.css';
 import { Link as RouterLink } from 'react-router-dom';
+import { PROJECTS as PROJECT_REGISTRY } from '../app/projects/projectRegistry';
 import latexpagesReadmeContent from '../assets/latexpages_README.md?raw';
-import { PROJECT_METADATA } from '../constants/projectMetadata';
-import { FOOTER_LINK_SETS } from '../components/Footer';
 import { PageLayout } from '../components/layout/PageLayout';
 import { Hero } from '../components/hero/Hero';
 import { ReadmeMarkdown } from './readme/ReadmeMarkdown';
@@ -24,10 +23,25 @@ type ProjectItem = {
     path?: string;
 };
 
-const PROJECTS: ProjectItem[] = [
-    PROJECT_METADATA.latexlint,
-    PROJECT_METADATA.latexcitation,
-    PROJECT_METADATA.latexwriting,
+const PROJECT_CARDS: ProjectItem[] = [
+    {
+        label: PROJECT_REGISTRY.latexlint.label,
+        description: PROJECT_REGISTRY.latexlint.description,
+        status: 'available',
+        path: PROJECT_REGISTRY.latexlint.path,
+    },
+    {
+        label: PROJECT_REGISTRY.latexcitation.label,
+        description: PROJECT_REGISTRY.latexcitation.description,
+        status: 'construction',
+        path: PROJECT_REGISTRY.latexcitation.path,
+    },
+    {
+        label: PROJECT_REGISTRY.latexwriting.label,
+        description: PROJECT_REGISTRY.latexwriting.description,
+        status: 'construction',
+        path: PROJECT_REGISTRY.latexwriting.path,
+    },
 ];
 
 function extractMarkdownSection(content: string, heading: string) {
@@ -83,14 +97,14 @@ function ProjectCard({ project }: { project: ProjectItem }) {
 
 export function HubPage() {
     return (
-        <PageLayout footerLinks={FOOTER_LINK_SETS.latexpages} projectKey="latexpages">
+        <PageLayout projectKey="latexpages">
             <Hero
-                label={PROJECT_METADATA.latexpages.label}
-                subtitle={PROJECT_METADATA.latexpages.description}
-                iconAlt={PROJECT_METADATA.latexpages.label}
+                label={PROJECT_REGISTRY.latexpages.label}
+                subtitle={PROJECT_REGISTRY.latexpages.description}
+                iconAlt={PROJECT_REGISTRY.latexpages.label}
             />
             <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
-                {PROJECTS.map((project) => (
+                {PROJECT_CARDS.map((project) => (
                     <ProjectCard key={project.label} project={project} />
                 ))}
             </Grid>

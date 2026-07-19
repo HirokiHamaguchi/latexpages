@@ -1,9 +1,8 @@
 import { Box, Container, VStack } from '@chakra-ui/react';
-import type { FooterLinkItem } from '../Footer';
-import { FOOTER_LINK_SETS, Footer } from '../Footer';
+import { Footer } from '../Footer';
 import { TopNavHeader } from '../TopNavHeader';
-import { PROJECT_HEADER_CONFIGS } from '../../constants/routes';
-import type { ProjectKey } from '../../constants/routes';
+import { PROJECTS } from '../../app/projects/projectRegistry';
+import type { FooterLinkItem, ProjectKey } from '../../app/projects/projectRegistry';
 
 type PageLayoutProps = {
     children: React.ReactNode;
@@ -11,16 +10,17 @@ type PageLayoutProps = {
     projectKey?: ProjectKey;
 };
 
-export function PageLayout({ children, footerLinks = FOOTER_LINK_SETS.latexlint, projectKey = 'latexlint' }: PageLayoutProps) {
-    const headerConfig = PROJECT_HEADER_CONFIGS[projectKey];
+export function PageLayout({ children, footerLinks, projectKey = 'latexlint' }: PageLayoutProps) {
+    const project = PROJECTS[projectKey];
+    const resolvedFooterLinks = footerLinks ?? [...project.footerLinks];
 
     return (
         // Fill at least the viewport and arrange the header, main content, and footer vertically.
         <Box minH="100vh" display="flex" flexDirection="column">
             <TopNavHeader
-                navItems={headerConfig.navItems}
-                pageLabel={headerConfig.label}
-                projectHomePath={headerConfig.homePath}
+                navItems={project.navItems}
+                pageLabel={project.label}
+                projectHomePath={project.homePath}
             />
             <Container
                 maxW="container.xl"
@@ -34,7 +34,7 @@ export function PageLayout({ children, footerLinks = FOOTER_LINK_SETS.latexlint,
                 <VStack gap={4} align="stretch" flex="1">
                     {children}
                 </VStack>
-                <Footer links={footerLinks} />
+                <Footer links={resolvedFooterLinks} />
             </Container>
         </Box>
     );

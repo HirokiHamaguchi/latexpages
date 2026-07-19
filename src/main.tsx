@@ -2,15 +2,16 @@ import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import latexCitationReadmeContent from './assets/latexcitation_README.md?raw'
+import latexlintReadmeContent from './assets/latexlint_README.md?raw'
 import { ScrollToTopOnNavigate } from './components/ScrollToTopOnNavigate'
 import { ROUTES } from './constants/routes'
-import { Content } from './content'
+import { LatexLintPage } from './features/latexlint/pages/LatexLintPage'
 import { HubPage } from './pages/HubPage'
+import { ProjectReadmePage } from './pages/ProjectReadmePage'
 import { LatexCitationPage } from './pages/latexcitation/LatexCitationPage'
-import { LatexCitationReadmePage } from './pages/LatexCitationReadmePage'
 import { LatexWritingPage } from './pages/latexwriting/LatexWritingPage'
 import { OtherPage } from './pages/OtherPage'
-import { ReadmePage } from './pages/ReadmePage'
 
 const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -21,13 +22,13 @@ createRoot(document.getElementById('root')!).render(
         <ScrollToTopOnNavigate />
         <Routes>
           <Route path={ROUTES.HUB} element={<HubPage />} />
-          <Route path={ROUTES.LATEXLINT} element={<Content />} />
-          <Route path={`${ROUTES.LATEXLINT}/`} element={<Content />} />
+          <Route path={ROUTES.LATEXLINT} element={<LatexLintPage />} />
+          <Route path={`${ROUTES.LATEXLINT}/`} element={<LatexLintPage />} />
           <Route path={ROUTES.LATEXLINT_OTHER} element={<OtherPage />} />
           <Route path={`${ROUTES.LATEXLINT_OTHER}/`} element={<OtherPage />} />
-          <Route path={ROUTES.LATEXLINT_README} element={<ReadmePage />} />
-          <Route path={`${ROUTES.LATEXLINT_README}/`} element={<ReadmePage />} />
-          <Route path={`${ROUTES.LATEXLINT_README}/:anchor`} element={<ReadmePage />} />
+          <Route path={ROUTES.LATEXLINT_README} element={<ProjectReadmePage projectKey="latexlint" content={latexlintReadmeContent} />} />
+          <Route path={`${ROUTES.LATEXLINT_README}/`} element={<ProjectReadmePage projectKey="latexlint" content={latexlintReadmeContent} />} />
+          <Route path={`${ROUTES.LATEXLINT_README}/:anchor`} element={<ProjectReadmePage projectKey="latexlint" content={latexlintReadmeContent} />} />
           <Route
             path={ROUTES.LATEXCITATION}
             element={<LatexCitationPage />}
@@ -36,9 +37,9 @@ createRoot(document.getElementById('root')!).render(
             path={`${ROUTES.LATEXCITATION}/`}
             element={<LatexCitationPage />}
           />
-          <Route path={ROUTES.LATEXCITATION_README} element={<LatexCitationReadmePage />} />
-          <Route path={`${ROUTES.LATEXCITATION_README}/`} element={<LatexCitationReadmePage />} />
-          <Route path={`${ROUTES.LATEXCITATION_README}/:anchor`} element={<LatexCitationReadmePage />} />
+          <Route path={ROUTES.LATEXCITATION_README} element={<ProjectReadmePage projectKey="latexcitation" content={latexCitationReadmeContent} />} />
+          <Route path={`${ROUTES.LATEXCITATION_README}/`} element={<ProjectReadmePage projectKey="latexcitation" content={latexCitationReadmeContent} />} />
+          <Route path={`${ROUTES.LATEXCITATION_README}/:anchor`} element={<ProjectReadmePage projectKey="latexcitation" content={latexCitationReadmeContent} />} />
           <Route path={ROUTES.LATEXCITATION_OTHER} element={<OtherPage projectKey="latexcitation" />} />
           <Route path={`${ROUTES.LATEXCITATION_OTHER}/`} element={<OtherPage projectKey="latexcitation" />} />
           <Route

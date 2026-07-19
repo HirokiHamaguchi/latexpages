@@ -7,67 +7,15 @@ import {
     VStack
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
-import { ROUTES } from '../constants/routes';
+import { PROJECTS } from '../app/projects/projectRegistry';
+import type { FooterLinkItem } from '../app/projects/projectRegistry';
 
 const BASE_URL = import.meta.env.BASE_URL;
+export const FOOTER_LINK_SETS = Object.fromEntries(
+    Object.entries(PROJECTS).map(([projectKey, project]) => [projectKey, [...project.footerLinks]])
+) satisfies Record<string, FooterLinkItem[]>;
 
-export type FooterLinkItem = {
-    icon: string;
-    label: string;
-    href?: string;
-    to?: string;
-    roundIcon?: boolean;
-    reload?: boolean;
-};
-
-const projectPageLink = (to: string): FooterLinkItem => ({
-    href: `${BASE_URL}${to.replace(/^\//, '')}`,
-    icon: 'lintIconLight_copied.svg',
-    label: 'Project Page',
-    reload: true,
-});
-
-const githubRepositoryLink = (repository: string): FooterLinkItem => ({
-    href: `https://github.com/HirokiHamaguchi/${repository}`,
-    icon: 'mark-github-24.svg',
-    label: 'GitHub Repository',
-});
-
-const DEVELOPER_SITE_LINK = {
-    href: 'https://hirokihamaguchi.github.io/',
-    icon: 'profile_icon256.webp',
-    label: "Developer's Site",
-    roundIcon: true,
-} satisfies FooterLinkItem;
-
-export const FOOTER_LINK_SETS = {
-    latexpages: [
-        projectPageLink(ROUTES.HUB),
-        DEVELOPER_SITE_LINK,
-        githubRepositoryLink('latexpages'),
-    ],
-    latexlint: [
-        projectPageLink(ROUTES.LATEXLINT),
-        {
-            href: 'https://marketplace.visualstudio.com/items?itemName=hari64boli64.latexlint',
-            icon: 'Visual_Studio_Code_1.35_icon.svg',
-            label: 'VS Code Extension',
-        },
-        githubRepositoryLink('latexlint'),
-    ],
-    latexcitation: [
-        projectPageLink(ROUTES.LATEXCITATION),
-        DEVELOPER_SITE_LINK,
-        githubRepositoryLink('latexcitation'),
-    ],
-    latexwriting: [
-        projectPageLink(ROUTES.LATEXWRITING),
-        DEVELOPER_SITE_LINK,
-        githubRepositoryLink('latexwriting'),
-    ],
-} satisfies Record<string, FooterLinkItem[]>;
-
-const DEFAULT_FOOTER_LINKS = FOOTER_LINK_SETS.latexpages;
+const DEFAULT_FOOTER_LINKS = [...PROJECTS.latexpages.footerLinks];
 
 const LinkContent = ({ children, icon, roundIcon }: { children: React.ReactNode; icon: string; roundIcon?: boolean }) => (
     <HStack align="center" gap={2}>
