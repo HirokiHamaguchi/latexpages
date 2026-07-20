@@ -32,12 +32,12 @@ export type ProjectDefinition = {
     readmeRawBase?: string;
 };
 
-const projectPageLink = (to: string): FooterLinkItem => ({
-    href: `${BASE_URL}${to.replace(/^\//, '')}`,
+const PROJECT_PAGE_LINK = {
+    href: `${BASE_URL}${ROUTES.HUB.replace(/^\//, '')}`,
     icon: 'lintIconLight_copied.svg',
     label: 'Project Page',
     reload: true,
-});
+} satisfies FooterLinkItem;
 
 const githubRepositoryLink = (repository: string): FooterLinkItem => ({
     href: `https://github.com/HirokiHamaguchi/${repository}`,
@@ -59,7 +59,7 @@ export const PROJECTS: Record<ProjectKey, ProjectDefinition> = {
         homePath: '',
         navItems: [],
         footerLinks: [
-            projectPageLink(ROUTES.HUB),
+            PROJECT_PAGE_LINK,
             DEVELOPER_SITE_LINK,
             githubRepositoryLink('latexpages'),
         ],
@@ -77,7 +77,7 @@ export const PROJECTS: Record<ProjectKey, ProjectDefinition> = {
             { label: 'Other', path: ROUTES.LATEXLINT_OTHER },
         ],
         footerLinks: [
-            projectPageLink(ROUTES.LATEXLINT),
+            PROJECT_PAGE_LINK,
             {
                 href: 'https://marketplace.visualstudio.com/items?itemName=hari64boli64.latexlint',
                 icon: 'Visual_Studio_Code_1.35_icon.svg',
@@ -100,7 +100,7 @@ export const PROJECTS: Record<ProjectKey, ProjectDefinition> = {
             { label: 'Other', path: ROUTES.LATEXCITATION_OTHER },
         ],
         footerLinks: [
-            projectPageLink(ROUTES.LATEXCITATION),
+            PROJECT_PAGE_LINK,
             DEVELOPER_SITE_LINK,
             githubRepositoryLink('latexcitation'),
         ],
@@ -118,7 +118,7 @@ export const PROJECTS: Record<ProjectKey, ProjectDefinition> = {
             { label: 'Other', path: ROUTES.LATEXWRITING_OTHER },
         ],
         footerLinks: [
-            projectPageLink(ROUTES.LATEXWRITING),
+            PROJECT_PAGE_LINK,
             DEVELOPER_SITE_LINK,
             githubRepositoryLink('latexwriting'),
         ],
