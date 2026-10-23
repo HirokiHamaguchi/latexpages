@@ -12,10 +12,10 @@ from test_npm_run import test_npm_run
 
 
 def main():
+    run_sync_project_metadata()
     run_sync_latexcitation()
     run_sync_latexlint()
     run_sync_latexpages()
-    run_sync_project_metadata()
     run_update_git_dependency_shas()
     run_check_git_dependency_shas()
     make_png_files()
