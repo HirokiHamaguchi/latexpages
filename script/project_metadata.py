@@ -177,6 +177,7 @@ def build_metadata() -> dict[str, Any]:
                     "collectionItems": [
                         project.collection_item(project_name)
                         for project_name, project in TOOL_PROJECTS.items()
+                        if project.status == "available"
                     ],
                 },
                 "html": [

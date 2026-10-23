@@ -7,8 +7,6 @@ LaTeX Pages collects web versions of LaTeX tools and notes for academic writing.
 The collection currently includes:
 
 * **[LaTeX Lint](./latexlint)**: Linter to detect common LaTeX and academic writing issues.
-* **[LaTeX Citation](./latexcitation)**: Experimental citation consistency checker for LaTeX projects that visualizes BibTeX field usage.
-* **[LaTeX Writing](./latexwriting)**: Under-construction collection of notes and utilities for academic writing with LaTeX.
 
 ## Declaration
 

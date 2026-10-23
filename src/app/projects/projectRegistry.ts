@@ -125,8 +125,7 @@ export const PROJECTS: Record<ProjectKey, ProjectDefinition> = {
     },
 };
 
+// Unfinished projects remain accessible directly, but stay out of the public collection.
 export const PRIMARY_PROJECT_KEYS: Exclude<ProjectKey, 'latexpages'>[] = [
     'latexlint',
-    'latexcitation',
-    'latexwriting',
 ];

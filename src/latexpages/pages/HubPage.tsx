@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import 'github-markdown-css/github-markdown-light.css';
 import { Link as RouterLink } from 'react-router-dom';
-import { PROJECTS as PROJECT_REGISTRY } from '../../app/projects/projectRegistry';
+import { PRIMARY_PROJECT_KEYS, PROJECTS as PROJECT_REGISTRY } from '../../app/projects/projectRegistry';
 import latexpagesReadmeContent from '../../assets/latexpages_README.md?raw';
 import { Hero } from '../../components/hero/Hero';
 import { PageLayout } from '../../components/layout/PageLayout';
@@ -23,26 +23,12 @@ type ProjectItem = {
     path?: string;
 };
 
-const PROJECT_CARDS: ProjectItem[] = [
-    {
-        label: PROJECT_REGISTRY.latexlint.label,
-        description: PROJECT_REGISTRY.latexlint.description,
-        status: 'available',
-        path: PROJECT_REGISTRY.latexlint.path,
-    },
-    {
-        label: PROJECT_REGISTRY.latexcitation.label,
-        description: PROJECT_REGISTRY.latexcitation.description,
-        status: 'construction',
-        path: PROJECT_REGISTRY.latexcitation.path,
-    },
-    {
-        label: PROJECT_REGISTRY.latexwriting.label,
-        description: PROJECT_REGISTRY.latexwriting.description,
-        status: 'construction',
-        path: PROJECT_REGISTRY.latexwriting.path,
-    },
-];
+const PROJECT_CARDS: ProjectItem[] = PRIMARY_PROJECT_KEYS.map((key) => ({
+    label: PROJECT_REGISTRY[key].label,
+    description: PROJECT_REGISTRY[key].description,
+    status: PROJECT_REGISTRY[key].status ?? 'planned',
+    path: PROJECT_REGISTRY[key].path,
+}));
 
 function extractMarkdownSection(content: string, heading: string) {
     const lines = content.split(/\r?\n/);
@@ -103,7 +89,7 @@ export function HubPage() {
                 subtitle={PROJECT_REGISTRY.latexpages.description}
                 iconAlt={PROJECT_REGISTRY.latexpages.label}
             />
-            <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
+            <Grid templateColumns="1fr" gap={4}>
                 {PROJECT_CARDS.map((project) => (
                     <ProjectCard key={project.label} project={project} />
                 ))}
