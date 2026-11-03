@@ -1,5 +1,5 @@
 import { Box, Collapsible, Table, Text } from '@chakra-ui/react';
-import type { VocabularyEntry } from '@latexlint/TextLint/vocabulary_loader';
+import type { VocabularyEntry } from "latexlint/browser";
 import { useState } from 'react';
 import { IoChevronDown, IoChevronForward } from 'react-icons/io5';
 

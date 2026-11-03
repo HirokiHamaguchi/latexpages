@@ -1,16 +1,16 @@
-import { checkNoDroppingI } from "@latexlint/TextLint/no_dropping_i";
-import { checkNoDroppingRa } from "@latexlint/TextLint/no_dropping_ra";
-import { checkNoSuccessiveWord } from "@latexlint/TextLint/no_successive_word";
-import { checkOverlookedTypo } from "@latexlint/TextLint/overlooked_typo";
-import { checkTariTari } from "@latexlint/TextLint/tari_tari";
-import type { LLTextLintErrorResult } from "@latexlint/TextLint/types";
-import filterDisabledLineDiagnostics from "@latexlint/util/filterDisabledLineDiagnostics";
-import formatException from "@latexlint/util/formatException";
-import { getCodeWithURI } from "@latexlint/util/getCodeWithURI";
 import {
+  checkNoDroppingI,
+  checkNoDroppingRa,
+  checkNoSuccessiveWord,
+  checkOverlookedTypo,
+  checkTariTari,
+  type LLTextLintErrorResult,
+  filterDisabledLineDiagnostics,
+  formatException,
+  getCodeWithURI,
   displayPerformanceReport,
   lintWithPerformanceTracking,
-} from "@latexlint/util/lintWithPerformanceTracking";
+} from "latexlint/browser";
 import * as monaco from "monaco-editor";
 import type { LintConfig } from "../config";
 import { getConfig } from "../config";

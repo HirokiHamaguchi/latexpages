@@ -24,9 +24,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@latexlint/*": [
-        "./node_modules/latexlint/src/*"
-      ],
       "@latexcitation/*": [
         "./node_modules/latexcitation/src/*"
       ]

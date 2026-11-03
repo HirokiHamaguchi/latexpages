@@ -1,8 +1,9 @@
-import { checkNoDroppingI } from "@latexlint/TextLint/no_dropping_i";
-import { checkOverlookedTypo } from "@latexlint/TextLint/overlooked_typo";
-import { parseSentence } from "@latexlint/TextLint/parser";
-import { checkTariTari } from "@latexlint/TextLint/tari_tari";
-
+import {
+  checkNoDroppingI,
+  checkOverlookedTypo,
+  parseSentence,
+  checkTariTari,
+} from "latexlint/browser";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
@@ -10,7 +11,7 @@ import { describe, it } from "vitest";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(testDir, "../..");
-const latexlintRoot = path.resolve(workspaceRoot, "latexlint");
+const externalsRoot = path.resolve(workspaceRoot, "latexlint-externals");
 
 
 // Additional tests for each function
@@ -23,7 +24,7 @@ describe("TextLint corpus", () => {
         fileNames = fileNames.slice(0, 10); // 最初の10ファイルに制限
 
         for (const fileName of fileNames) {
-            const filePath = path.resolve(latexlintRoot, fileName);
+            const filePath = path.resolve(externalsRoot, fileName);
             if (!fs.existsSync(filePath)) {
                 console.warn(`File not found: ${filePath}`);
                 continue;

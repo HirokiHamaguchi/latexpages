@@ -1,5 +1,5 @@
 import { Table, Text, VStack } from '@chakra-ui/react';
-import type { VocabularyEntry } from '@latexlint/TextLint/vocabulary_loader';
+import type { VocabularyEntry } from "latexlint/browser";
 import { VocabularyRow } from './VocabularyRow';
 
 type VocabularyTableProps = {

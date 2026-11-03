@@ -1,9 +1,12 @@
-import { checkNoDroppingI } from "@latexlint/TextLint/no_dropping_i";
-import { checkNoDroppingRa } from "@latexlint/TextLint/no_dropping_ra";
-import { checkOverlookedTypo } from "@latexlint/TextLint/overlooked_typo";
-import { parseSentence, Token } from "@latexlint/TextLint/parser";
-import { checkTariTari } from "@latexlint/TextLint/tari_tari";
-import type { LLTextLintErrorResult } from "@latexlint/TextLint/types";
+import {
+  checkNoDroppingI,
+  checkNoDroppingRa,
+  checkOverlookedTypo,
+  parseSentence,
+  type Token,
+  checkTariTari,
+  type LLTextLintErrorResult,
+} from "latexlint/browser";
 import { describe, expect, it } from "vitest";
 
 import fs from "fs";

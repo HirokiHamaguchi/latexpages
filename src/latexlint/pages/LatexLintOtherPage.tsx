@@ -7,7 +7,7 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
-import { getVocabularyData } from '@latexlint/TextLint/vocabulary_loader';
+import { getVocabularyData } from "latexlint/browser";
 import { useMemo } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { DeclarationSection } from '../../components/DeclarationSection';
