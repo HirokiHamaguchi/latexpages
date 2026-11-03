@@ -54,6 +54,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],
+    // Transform the package so its vscode imports use the host's alias above.
+    // https://vitest.dev/config/server#server-deps-inline
+    server: { deps: { inline: ['latexlint'] } },
     fileParallelism: false
   }
 })
