@@ -10,11 +10,9 @@ The collection currently includes:
 
 ## Declaration
 
-We firmly pledge the following principles:
+We respect your privacy. Your input stays in your browser.
 
-1. We never collect, access, or sell your input. Our tools run locally in your browser.
-2. This is an open-source software project, not intended for commercial gain.
-3. We develop this project with the belief that it will contribute to your creation of knowledge through LaTeX.
+This is an open-source software project, not intended for commercial gain.
 
 We sincerely thank our collaborators, supervisors, and reviewers, whose insights have shaped this project.
 

@@ -83,7 +83,11 @@ export const PROJECTS: Record<ProjectKey, ProjectDefinition> = {
                 icon: 'Visual_Studio_Code_1.35_icon.svg',
                 label: 'VS Code Extension',
             },
-            githubRepositoryLink('latexlint'),
+            {
+                href: 'https://www.npmjs.com/package/latexlint',
+                icon: 'npm.svg',
+                label: 'npm Package',
+            },
         ],
         readmeRouteBase: ROUTES.LATEXLINT_README,
         readmeRawBase: 'https://raw.githubusercontent.com/HirokiHamaguchi/latexlint/master/',
