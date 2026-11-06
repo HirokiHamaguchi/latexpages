@@ -3,6 +3,9 @@
 
 # LaTeX Lint
 
+[![VS Code: Install](https://img.shields.io/badge/VS_Code-Install-007ACC)](https://marketplace.visualstudio.com/items?itemName=hari64boli64.latexlint)
+[![npm version](https://img.shields.io/npm/v/latexlint?logo=npm)](https://www.npmjs.com/package/latexlint)
+
 ## Abstract
 
 LaTeX Lint is a linter to detect common LaTeX and academic writing issues.
@@ -15,7 +18,7 @@ LaTeX Lint is a linter to detect common LaTeX and academic writing issues.
 
 ![abstract_web](https://raw.githubusercontent.com/HirokiHamaguchi/latexlint/master/images/abstract_web.png)
 
-[CLI version](CLI.md) can also be used with pre-commit and CI.
+[CLI version](https://github.com/HirokiHamaguchi/latexlint/blob/master/CLI.md) can also be used with pre-commit and CI.
 
 ## Rules
 

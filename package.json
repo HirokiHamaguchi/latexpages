@@ -25,7 +25,7 @@
     "github-markdown-css": "^5.8.1",
     "kuromoji": "^0.1.2",
     "latexcitation": "git+https://github.com/HirokiHamaguchi/latexcitation.git#99385890e34d48fa2a921f02d9888adbec61868c",
-    "latexlint": "git+https://github.com/HirokiHamaguchi/latexlint.git#fa5203eb160b01f50a7caaaad905e550d9cd7191",
+    "latexlint": "git+https://github.com/HirokiHamaguchi/latexlint.git#f0d3e17cf994382fde9f5e97de0437f6cbfd2159",
     "monaco-editor": "^0.53.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
